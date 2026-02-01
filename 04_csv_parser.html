@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 4: CSV Parser</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="03_current_date.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 4 of 27</span>
+      <a href="05_reject_filter.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            CSV Parser Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to parse CSV...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            CSV (Comma-Separated Values) là định dạng file phổ biến để lưu trữ dữ liệu dạng bảng. 
+            Trong bài này, chúng ta sẽ học cách chuyển đổi chuỗi CSV thành mảng các object JavaScript.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Tách dòng (Split Rows):</strong><br />
+              Dùng <code>split('\n')</code> để tách chuỗi CSV thành từng dòng riêng biệt.
+              Dòng đầu tiên chứa tên các cột (headers).
+            </li>
+            <li class="step-item">
+              <strong>2. Tách cột (Split Columns):</strong><br />
+              Mỗi dòng được tách bằng <code>split(',')</code> để lấy giá trị của từng cột.
+            </li>
+            <li class="step-item">
+              <strong>3. Tạo Object từ Headers:</strong><br />
+              Với mỗi dòng dữ liệu, ta tạo một object mới. Mỗi key của object là tên cột (từ dòng đầu),
+              và value là giá trị tương ứng ở dòng đó.
+            </li>
+            <li class="step-item">
+              <strong>4. Array.map() & Array.reduce():</strong><br />
+              <code>map()</code> dùng để biến đổi từng phần tử trong mảng.<br />
+              <code>reduce()</code> dùng để gộp các giá trị thành một object duy nhất.
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// 1. Tách thành các dòng</span>
+            <span class="keyword">const</span> lines = csvString.<span class="function">split</span>(<span class="string">'\n'</span>);
+
+            <span class="comment">// 2. Lấy headers (dòng đầu tiên)</span>
+            <span class="keyword">const</span> headers = lines[0].<span class="function">split</span>(<span class="string">','</span>);
+
+            <span class="comment">// 3. Xử lý từng dòng dữ liệu</span>
+            <span class="keyword">const</span> result = lines.<span class="function">slice</span>(1).<span class="function">map</span>(line => {
+              <span class="keyword">const</span> values = line.<span class="function">split</span>(<span class="string">','</span>);
+              <span class="keyword">return</span> headers.<span class="function">reduce</span>((obj, header, i) => {
+                obj[header] = values[i];
+                <span class="keyword">return</span> obj;
+              }, {});
+            });
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=6"></script>
+    <script>
+      const defaultCode = `
+// Sample CSV data
+const csvString = \`name,age,city
+John,25,New York
+Jane,30,San Francisco
+Bob,22,Los Angeles\`;
+
+// Function to convert CSV to array of objects
+function csvToObjects(csv) {
+  // Split into lines
+  const lines = csv.trim().split('\\n');
+  
+  // Extract headers (first row)
+  const headers = lines[0].split(',');
+  
+  // Process data rows (skip first row)
+  const result = lines.slice(1).map(line => {
+    const values = line.split(',');
+    
+    // Create object using reduce
+    return headers.reduce((obj, header, index) => {
+      obj[header] = values[index];
+      return obj;
+    }, {});
+  });
+  
+  return result;
+}
+
+// Parse the CSV
+const data = csvToObjects(csvString);
+
+// Display in output area
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  outputDiv.textContent = JSON.stringify(data, null, 2);
+}
+
+// Log to console
+CustomConsole.log("Parsed CSV Data:");
+data.forEach((row, index) => {
+  CustomConsole.info(\`Row \${index + 1}: \${JSON.stringify(row)}\`);
+});
+CustomConsole.success(\`Successfully parsed \${data.length} rows!\`);
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

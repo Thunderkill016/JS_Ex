@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 5: Reject Filter</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="04_csv_parser.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 5 of 27</span>
+      <a href="06_error_handling.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Reject Filter Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to see reject filter in action...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <code>Array.filter()</code> giữ lại các phần tử mà predicate trả về <code>true</code>.
+            Trong bài này, chúng ta sẽ viết hàm <strong>ngược lại</strong>: chỉ giữ phần tử khi predicate trả về <code>false</code>.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Array.filter() cơ bản:</strong><br />
+              <code>[1, 2, 3, 4].filter(x => x > 2)</code> <span class="nav-arrow">→</span> <code>[3, 4]</code><br />
+              Giữ lại các số lớn hơn 2 (predicate = true).
+            </li>
+            <li class="step-item">
+              <strong>2. Reject Filter (Ngược lại):</strong><br />
+              <code>reject([1, 2, 3, 4], x => x > 2)</code> <span class="nav-arrow">→</span> <code>[1, 2]</code><br />
+              Giữ lại các số KHÔNG lớn hơn 2 (predicate = false).
+            </li>
+            <li class="step-item">
+              <strong>3. Cách triển khai:</strong><br />
+              Có 2 cách chính:
+              <ul style="margin-top: 5px; padding-left: 20px; color: #8b949e; font-size: 0.9em;">
+                <li><strong>Cách 1:</strong> Dùng <code>filter</code> với <code>!</code> (NOT) để đảo ngược điều kiện.</li>
+                <li><strong>Cách 2:</strong> Dùng vòng lặp <code>for</code> và chỉ push khi predicate = false.</li>
+              </ul>
+            </li>
+            <li class="step-item">
+              <strong>4. Ứng dụng thực tế:</strong><br />
+              Loại bỏ các phần tử không mong muốn: xóa số chẵn, xóa chuỗi rỗng, xóa giá trị null/undefined...
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Cách 1: Dùng filter với NOT (!)</span>
+            <span class="keyword">function</span> <span class="function">reject</span>(arr, predicate) {
+              <span class="keyword">return</span> arr.<span class="function">filter</span>(x => !<span class="function">predicate</span>(x));
+            }
+
+            <span class="comment">// Cách 2: Dùng vòng lặp</span>
+            <span class="keyword">function</span> <span class="function">reject</span>(arr, predicate) {
+              <span class="keyword">const</span> result = [];
+              <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> arr) {
+                <span class="keyword">if</span> (!<span class="function">predicate</span>(item)) {
+                  result.<span class="function">push</span>(item);
+                }
+              }
+              <span class="keyword">return</span> result;
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=6"></script>
+    <script>
+      const defaultCode = `
+// Reject Filter: Keep only items where predicate returns FALSE
+
+function reject(arr, predicate) {
+  // Using filter with NOT (!) to reverse the condition
+  return arr.filter(x => !predicate(x));
+}
+
+// Test cases
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Example 1: Reject even numbers (keep odd)
+const isEven = x => x % 2 === 0;
+const oddNumbers = reject(numbers, isEven);
+
+// Example 2: Reject numbers > 5 (keep <= 5)
+const greaterThan5 = x => x > 5;
+const smallNumbers = reject(numbers, greaterThan5);
+
+// Example 3: Reject empty strings
+const words = ["hello", "", "world", "", "javascript"];
+const isEmpty = str => str === "";
+const nonEmptyWords = reject(words, isEmpty);
+
+// Display results
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  outputDiv.textContent = 
+\`Original: [\${numbers.join(', ')}]
+
+Reject Even (keep odd):
+[\${oddNumbers.join(', ')}]
+
+Reject > 5 (keep <= 5):
+[\${smallNumbers.join(', ')}]
+
+Reject Empty Strings:
+[\${nonEmptyWords.join(', ')}]\`;
+}
+
+// Console logging
+CustomConsole.log("🔍 Reject Filter Examples:");
+CustomConsole.info(\`Odd numbers: [\${oddNumbers}]\`);
+CustomConsole.info(\`Numbers <= 5: [\${smallNumbers}]\`);
+CustomConsole.info(\`Non-empty words: [\${nonEmptyWords}]\`);
+CustomConsole.success("All reject filters executed successfully!");
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

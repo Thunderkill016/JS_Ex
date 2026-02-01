@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 6: Error Handling</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="05_reject_filter.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 6 of 27</span>
+      <a href="07_count_vowels.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Error Handling Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to test error handling...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            Error handling (xử lý lỗi) là kỹ thuật quan trọng để kiểm soát luồng chương trình khi có lỗi xảy ra.
+            Trong bài này, chúng ta học cách <strong>throw</strong> (ném) lỗi tùy chỉnh và <strong>catch</strong> (bắt) lỗi.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Throw Error:</strong><br />
+              Dùng <code>throw new Error("message")</code> để tạo và ném một lỗi.<br />
+              Khi lỗi được throw, chương trình sẽ dừng ngay lập tức (trừ khi được catch).
+            </li>
+            <li class="step-item">
+              <strong>2. Try-Catch Block:</strong><br />
+              <code>try { ... }</code> chứa code có thể gây lỗi.<br />
+              <code>catch (error) { ... }</code> bắt lỗi và xử lý mà không làm crash chương trình.
+            </li>
+            <li class="step-item">
+              <strong>3. Custom Error Messages:</strong><br />
+              Bạn có thể tạo message lỗi tùy chỉnh để dễ debug:<br />
+              <code>throw new Error("String cannot be empty!")</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Error Object Properties:</strong><br />
+              <code>error.message</code> - Nội dung lỗi<br />
+              <code>error.name</code> - Tên loại lỗi (mặc định: "Error")<br />
+              <code>error.stack</code> - Stack trace (vị trí lỗi)
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Hàm throw error nếu string rỗng</span>
+            <span class="keyword">function</span> <span class="function">validateString</span>(str) {
+              <span class="keyword">if</span> (str === <span class="string">""</span>) {
+                <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">"String cannot be empty!"</span>);
+              }
+              <span class="keyword">return</span> str;
+            }
+
+            <span class="comment">// Sử dụng try-catch</span>
+            <span class="keyword">try</span> {
+              <span class="function">validateString</span>(<span class="string">""</span>); <span class="comment">// Sẽ throw error</span>
+            } <span class="keyword">catch</span> (error) {
+              console.<span class="function">error</span>(error.message);
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=6"></script>
+    <script>
+      const defaultCode = `
+// Function that throws error if string is empty
+function validateString(str) {
+  if (str === "") {
+    throw new Error("❌ String cannot be empty!");
+  }
+  return "✅ Valid string: " + str;
+}
+
+// Test cases with try-catch
+const testCases = [
+  { input: "Hello", label: "Valid String" },
+  { input: "", label: "Empty String" },
+  { input: "JavaScript", label: "Valid String" },
+  { input: "   ", label: "Whitespace String" }
+];
+
+let results = [];
+
+testCases.forEach(test => {
+  try {
+    const result = validateString(test.input);
+    results.push(\`\${test.label}: \${result}\`);
+    CustomConsole.success(\`\${test.label} - PASSED\`);
+  } catch (error) {
+    results.push(\`\${test.label}: \${error.message}\`);
+    CustomConsole.error(\`\${test.label} - ERROR: \${error.message}\`);
+  }
+});
+
+// Display in output area
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  outputDiv.textContent = results.join('\\n\\n');
+}
+
+CustomConsole.log("🧪 Error Handling Test Complete!");
+CustomConsole.info(\`Tested \${testCases.length} cases\`);
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

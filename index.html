@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercises Dashboard</title>
+    <link rel="preload" href="style.css" as="style">
+    <link rel="stylesheet" href="style.css?v=15" />
+  </head>
+  <body class="dashboard-body">
+    <header class="dashboard-header">
+      <div class="logo"><span class="logo-icon">⚡</span> JS Exercises</div>
+      <div class="subtitle">27 Projects Organized by Topics</div>
+    </header>
+
+    <main class="dashboard-container">
+      <!-- ========== DATE & TIME ========== -->
+      <section class="topic-section">
+        <div class="section-header">
+          <span class="section-icon">📅</span>
+          <h2>Date & Time</h2>
+          <span class="section-count">5 exercises</span>
+        </div>
+        <div class="exercise-grid">
+          <a href="01_current_day_time.html" class="exercise-card">
+            <div class="card-number">1</div>
+            <div class="card-content">
+              <h3>Current Day & Time</h3>
+              <p>
+                Hiển thị ngày giờ hiện tại với định dạng 12h và update
+                real-time.
+              </p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="03_current_date.html" class="exercise-card">
+            <div class="card-number">2</div>
+            <div class="card-content">
+              <h3>Current Date</h3>
+              <p>
+                Lấy ngày hiện tại và hiển thị dưới nhiều định dạng
+                (dd/mm/yyyy...).
+              </p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="11_delayed_callback.html" class="exercise-card">
+            <div class="card-number">3</div>
+            <div class="card-content">
+              <h3>Delayed Callback</h3>
+              <p>Thực thi callback sau 2 giây với setTimeout().</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="23_leap_year.html" class="exercise-card">
+            <div class="card-number">4</div>
+            <div class="card-content">
+              <h3>Leap Year Checker</h3>
+              <p>Kiểm tra năm nhuận theo lịch Gregorian (÷4, ÷100, ÷400).</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="24_jan1_sunday.html" class="exercise-card">
+            <div class="card-number">5</div>
+            <div class="card-content">
+              <h3>Jan 1 Sunday Finder</h3>
+              <p>Tìm các năm 2014-2050 mà ngày 1/1 rơi vào Chủ Nhật.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== STRING MANIPULATION ========== -->
+      <section class="topic-section">
+        <div class="section-header">
+          <span class="section-icon">🔤</span>
+          <h2>String Manipulation</h2>
+          <span class="section-count">5 exercises</span>
+        </div>
+        <div class="exercise-grid">
+          <a href="04_csv_parser.html" class="exercise-card">
+            <div class="card-number">1</div>
+            <div class="card-content">
+              <h3>CSV Parser</h3>
+              <p>Chuyển đổi chuỗi CSV thành mảng các object JavaScript.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="07_count_vowels.html" class="exercise-card">
+            <div class="card-number">2</div>
+            <div class="card-content">
+              <h3>Count Vowels</h3>
+              <p>Đếm số lượng nguyên âm (a, e, i, o, u) trong một chuỗi.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="14_remove_duplicates.html" class="exercise-card">
+            <div class="card-number">3</div>
+            <div class="card-content">
+              <h3>Remove Duplicates</h3>
+              <p>Loại bỏ phần tử trùng lặp trong array (case-insensitive).</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="17_string_chop.html" class="exercise-card">
+            <div class="card-number">4</div>
+            <div class="card-content">
+              <h3>String Chunking</h3>
+              <p>Chia chuỗi thành các chunks có độ dài cố định.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="22_string_rotation.html" class="exercise-card">
+            <div class="card-number">5</div>
+            <div class="card-content">
+              <h3>String Rotation</h3>
+              <p>Xoay chuỗi theo hướng phải với animation setInterval.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== ARRAYS & DATA STRUCTURES ========== -->
+      <section class="topic-section">
+        <div class="section-header">
+          <span class="section-icon">📊</span>
+          <h2>Arrays & Data Structures</h2>
+          <span class="section-count">5 exercises</span>
+        </div>
+        <div class="exercise-grid">
+          <a href="05_reject_filter.html" class="exercise-card">
+            <div class="card-number">1</div>
+            <div class="card-content">
+              <h3>Reject Filter</h3>
+              <p>
+                Lọc mảng ngược lại: chỉ giữ phần tử khi predicate trả về false.
+              </p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="08_binary_search.html" class="exercise-card">
+            <div class="card-number">2</div>
+            <div class="card-content">
+              <h3>Binary Search</h3>
+              <p>Tìm kiếm nhị phân trong mảng đã sắp xếp O(log n).</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="15_swap_stack.html" class="exercise-card">
+            <div class="card-number">3</div>
+            <div class="card-content">
+              <h3>Swap Stack Elements</h3>
+              <p>Hoán đổi 2 phần tử trên cùng của Stack (LIFO).</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="16_linked_list_string.html" class="exercise-card">
+            <div class="card-number">4</div>
+            <div class="card-content">
+              <h3>Linked List to String</h3>
+              <p>Chuyển Singly Linked List thành chuỗi "1 -> 2 -> null".</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="21_object_properties.html" class="exercise-card">
+            <div class="card-number">5</div>
+            <div class="card-content">
+              <h3>List Object Properties</h3>
+              <p>Liệt kê tất cả properties của object với Object.keys().</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== MATH & ALGORITHMS ========== -->
+      <section class="topic-section">
+        <div class="section-header">
+          <span class="section-icon">🔢</span>
+          <h2>Math & Algorithms</h2>
+          <span class="section-count">7 exercises</span>
+        </div>
+        <div class="exercise-grid">
+          <a href="09_armstrong_numbers.html" class="exercise-card">
+            <div class="card-number">1</div>
+            <div class="card-content">
+              <h3>Armstrong Numbers</h3>
+              <p>Tìm các số Armstrong 3 chữ số (153, 370, 371, 407).</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="13_power_of_2.html" class="exercise-card">
+            <div class="card-number">2</div>
+            <div class="card-content">
+              <h3>Power of 2</h3>
+              <p>Kiểm tra số có phải lũy thừa của 2 với bitwise operations.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="18_binary_log.html" class="exercise-card">
+            <div class="card-number">3</div>
+            <div class="card-content">
+              <h3>Binary Logarithm</h3>
+              <p>Tính log₂(n) bằng bitwise right shift operators.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="06_error_handling.html" class="exercise-card">
+            <div class="card-number">4</div>
+            <div class="card-content">
+              <h3>Error Handling</h3>
+              <p>Throw custom error khi string rỗng và xử lý với try-catch.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="25_guess_number.html" class="exercise-card">
+            <div class="card-number">5</div>
+            <div class="card-content">
+              <h3>Guess Number Game</h3>
+              <p>Game đoán số ngẫu nhiên từ 1-10 (Good Work / Not matched).</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="26_multiplication_division.html" class="exercise-card">
+            <div class="card-number">6</div>
+            <div class="card-content">
+              <h3>Multiply & Divide</h3>
+              <p>Tính nhân và chia 2 số từ user input form.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="27_triangle_area.html" class="exercise-card">
+            <div class="card-number">7</div>
+            <div class="card-content">
+              <h3>Triangle Area (Heron)</h3>
+              <p>Tính diện tích tam giác bằng công thức Heron.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== DOM & EVENTS ========== -->
+      <section class="topic-section">
+        <div class="section-header">
+          <span class="section-icon">🎨</span>
+          <h2>DOM & Events</h2>
+          <span class="section-count">3 exercises</span>
+        </div>
+        <div class="exercise-grid">
+          <a href="02_print_window.html" class="exercise-card">
+            <div class="card-number">1</div>
+            <div class="card-content">
+              <h3>Print Contents</h3>
+              <p>In nội dung cửa sổ hiện tại (window.print()) bằng nút bấm.</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="10_double_click.html" class="exercise-card">
+            <div class="card-number">2</div>
+            <div class="card-content">
+              <h3>Double Click Event</h3>
+              <p>
+                Xử lý sự kiện double-click với addEventListener('dblclick').
+              </p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <a href="19_dropdown_counter.html" class="exercise-card">
+            <div class="card-number">3</div>
+            <div class="card-content">
+              <h3>Count Dropdown Items</h3>
+              <p>Đếm và hiển thị items trong dropdown list (select element).</p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== OOP & CLASSES ========== -->
+      <section class="topic-section">
+        <div class="section-header">
+          <span class="section-icon">🎓</span>
+          <h2>OOP & Classes</h2>
+          <span class="section-count">1 exercise</span>
+        </div>
+        <div class="exercise-grid">
+          <a href="12_university_class.html" class="exercise-card">
+            <div class="card-number">1</div>
+            <div class="card-content">
+              <h3>University Class</h3>
+              <p>
+                ES6 Class với constructor, methods, và department management.
+              </p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- ========== CANVAS & GRAPHICS ========== -->
+      <section class="topic-section">
+        <div class="section-header">
+          <span class="section-icon">🖼️</span>
+          <h2>Canvas & Graphics</h2>
+          <span class="section-count">1 exercise</span>
+        </div>
+        <div class="exercise-grid">
+          <a href="20_canvas_rectangles.html" class="exercise-card">
+            <div class="card-number">1</div>
+            <div class="card-content">
+              <h3>Canvas Rectangles</h3>
+              <p>
+                Vẽ 2 rectangles giao nhau với alpha transparency trên Canvas.
+              </p>
+            </div>
+            <div class="card-arrow">→</div>
+          </a>
+
+          <!-- Placeholder for more exercises -->
+          <div class="exercise-card placeholder">
+            <div class="card-number">+</div>
+            <div class="card-content">
+              <h3>More Coming...</h3>
+              <p>Thêm nhiều bài tập Canvas sẽ xuất hiện ở đây.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="dashboard-footer">
+      <p>Built with <span class="footer-icon">❤️</span> for JavaScript learners | 27 Exercises</p>
+    </footer>
+  </body>
+</html>

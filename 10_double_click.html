@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 10: Double Click Event</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="09_armstrong_numbers.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 10 of 27</span>
+      <a href="11_delayed_callback.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Double-Click Demo
+          </div>
+          <div id="demo-box" style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 15px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          ">
+            Double-click me!
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 80px;
+            white-space: pre-wrap;
+            text-align: left;
+            margin-top: 20px;
+          ">
+            Click "Run Code" to activate double-click listener...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Double-click event</strong> (sự kiện double-click) xảy ra khi user click chuột 2 lần liên tiếp vào một element.
+            Đây là event phổ biến trong UI/UX để thực hiện các hành động đặc biệt.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Event Listener:</strong><br />
+              Dùng <code>addEventListener()</code> để lắng nghe sự kiện:<br />
+              <code>element.addEventListener('dblclick', callback)</code>
+            </li>
+            <li class="step-item">
+              <strong>2. Event Types:</strong><br />
+              - <code>click</code> - Click 1 lần<br />
+              - <code>dblclick</code> - Click 2 lần liên tiếp<br />
+              - <code>contextmenu</code> - Click chuột phải
+            </li>
+            <li class="step-item">
+              <strong>3. Event Object:</strong><br />
+              Callback nhận event object với thông tin:<br />
+              - <code>event.target</code> - Element được click<br />
+              - <code>event.clientX/Y</code> - Tọa độ chuột<br />
+              - <code>event.timeStamp</code> - Thời điểm event
+            </li>
+            <li class="step-item">
+              <strong>4. Use Cases:</strong><br />
+              - Mở file/folder (như Windows Explorer)<br />
+              - Zoom in/out<br />
+              - Edit inline (như rename file)<br />
+              - Toggle fullscreen
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Get element</span>
+            <span class="keyword">const</span> box = document.<span class="function">getElementById</span>(<span class="string">'demo-box'</span>);
+
+            <span class="comment">// Add double-click listener</span>
+            box.<span class="function">addEventListener</span>(<span class="string">'dblclick'</span>, <span class="keyword">function</span>(event) {
+              <span class="comment">// Change background color</span>
+              <span class="keyword">this</span>.style.background = <span class="string">'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'</span>;
+              
+              <span class="comment">// Update text</span>
+              <span class="keyword">this</span>.textContent = <span class="string">'Double-clicked!'</span>;
+              
+              <span class="comment">// Log to console</span>
+              console.<span class="function">log</span>(<span class="string">'Double-click detected!'</span>);
+            });
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Get the demo box element
+const demoBox = document.getElementById('demo-box');
+const outputDiv = document.getElementById('output-display');
+
+let clickCount = 0;
+const colors = [
+  'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+  'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+  'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+  'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+];
+
+// Add double-click event listener
+demoBox.addEventListener('dblclick', function(event) {
+  clickCount++;
+  
+  // Change color
+  const colorIndex = clickCount % colors.length;
+  this.style.background = colors[colorIndex];
+  
+  // Update text
+  this.textContent = \`Double-clicked \${clickCount} time(s)!\`;
+  
+  // Add animation
+  this.style.transform = 'scale(1.05)';
+  setTimeout(() => {
+    this.style.transform = 'scale(1)';
+  }, 200);
+  
+  // Log to console
+  CustomConsole.success(\`Double-click #\${clickCount} detected!\`);
+  CustomConsole.info(\`Position: (\${event.clientX}, \${event.clientY})\`);
+  
+  // Update output
+  outputDiv.textContent = \`Total double-clicks: \${clickCount}\\nLast click at: (\${event.clientX}, \${event.clientY})\`;
+});
+
+// Also add single click for comparison
+demoBox.addEventListener('click', function() {
+  CustomConsole.log('Single click detected (not double-click)');
+});
+
+CustomConsole.success('Double-click listener activated!');
+CustomConsole.info('Try double-clicking the box above!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

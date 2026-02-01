@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 12: University Class</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="11_delayed_callback.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 12 of 27</span>
+      <a href="13_power_of_2.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            University Class Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to see University class in action...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>ES6 Classes</strong> là cú pháp hiện đại để tạo objects và implement OOP (Object-Oriented Programming).
+            Class giống như blueprint để tạo ra nhiều objects có cùng cấu trúc.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Class Declaration:</strong><br />
+              <code>class University { ... }</code><br />
+              Tạo class với keyword <code>class</code>, tên class viết hoa chữ cầu đầu.
+            </li>
+            <li class="step-item">
+              <strong>2. Constructor:</strong><br />
+              <code>constructor(name) { this.name = name; }</code><br />
+              Hàm đặc biệt chạy khi tạo instance mới.<br />
+              <code>this</code> trỏ đến instance hiện tại.
+            </li>
+            <li class="step-item">
+              <strong>3. Methods:</strong><br />
+              Hàm bên trong class để thao tác với data:<br />
+              - <code>addDepartment()</code> - Thêm department<br />
+              - <code>removeDepartment()</code> - Xóa department<br />
+              - <code>displayDepartments()</code> - Hiển thị danh sách
+            </li>
+            <li class="step-item">
+              <strong>4. Creating Instance:</strong><br />
+              <code>const uni = new University('MIT');</code><br />
+              Dùng <code>new</code> keyword để tạo object từ class.
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="keyword">class</span> <span class="function">University</span> {
+              <span class="function">constructor</span>(name) {
+                <span class="keyword">this</span>.name = name;
+                <span class="keyword">this</span>.departments = [];
+              }
+              
+              <span class="function">addDepartment</span>(dept) {
+                <span class="keyword">this</span>.departments.<span class="function">push</span>(dept);
+              }
+              
+              <span class="function">removeDepartment</span>(dept) {
+                <span class="keyword">const</span> index = <span class="keyword">this</span>.departments.<span class="function">indexOf</span>(dept);
+                <span class="keyword">if</span> (index > -1) {
+                  <span class="keyword">this</span>.departments.<span class="function">splice</span>(index, 1);
+                }
+              }
+              
+              <span class="function">displayDepartments</span>() {
+                console.<span class="function">log</span>(<span class="keyword">this</span>.departments);
+              }
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// University Class with Department Management
+class University {
+  constructor(name) {
+    this.name = name;
+    this.departments = [];
+    CustomConsole.success(\`🎓 Created university: \${name}\`);
+  }
+  
+  addDepartment(department) {
+    this.departments.push(department);
+    CustomConsole.info(\`➕ Added department: \${department}\`);
+  }
+  
+  removeDepartment(department) {
+    const index = this.departments.indexOf(department);
+    if (index > -1) {
+      this.departments.splice(index, 1);
+      CustomConsole.success(\`➖ Removed department: \${department}\`);
+    } else {
+      CustomConsole.error(\`❌ Department not found: \${department}\`);
+    }
+  }
+  
+  displayDepartments() {
+    CustomConsole.log(\`\\n📋 Departments at \${this.name}:\`);
+    if (this.departments.length === 0) {
+      CustomConsole.info('  (No departments yet)');
+    } else {
+      this.departments.forEach((dept, index) => {
+        CustomConsole.info(\`  \${index + 1}. \${dept}\`);
+      });
+    }
+    return this.departments;
+  }
+}
+
+// Create University instance
+const mit = new University('Massachusetts Institute of Technology');
+
+// Add departments
+CustomConsole.log('\\n--- Adding Departments ---');
+mit.addDepartment('Computer Science');
+mit.addDepartment('Mathematics');
+mit.addDepartment('Physics');
+mit.addDepartment('Engineering');
+
+// Display all departments
+mit.displayDepartments();
+
+// Remove a department
+CustomConsole.log('\\n--- Removing Department ---');
+mit.removeDepartment('Mathematics');
+
+// Display updated list
+mit.displayDepartments();
+
+// Try to remove non-existent department
+CustomConsole.log('\\n--- Testing Error Case ---');
+mit.removeDepartment('Biology');
+
+// Final output
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = \`University: \${mit.name}\\n\\n\`;
+  output += \`Total Departments: \${mit.departments.length}\\n\\n\`;
+  output += 'Departments:\\n';
+  mit.departments.forEach((dept, i) => {
+    output += \`  \${i + 1}. \${dept}\\n\`;
+  });
+  outputDiv.textContent = output;
+}
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

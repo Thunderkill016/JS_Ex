@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 9: Armstrong Numbers</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="08_binary_search.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 9 of 27</span>
+      <a href="10_double_click.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Armstrong Numbers Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to find Armstrong numbers...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Armstrong Number</strong> (Số Armstrong) là số mà tổng lũy thừa các chữ số bằng chính nó.
+            Với số 3 chữ số, ta lấy lũy thừa 3 (cube) của từng chữ số.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Định nghĩa:</strong><br />
+              Số Armstrong 3 chữ số: <code>abc</code> thỏa mãn:<br />
+              <code>a³ + b³ + c³ = abc</code>
+            </li>
+            <li class="step-item">
+              <strong>2. Ví dụ:</strong><br />
+              <strong>371</strong> là Armstrong number vì:<br />
+              3³ + 7³ + 1³ = 27 + 343 + 1 = 371 ✓<br /><br />
+              <strong>153</strong> cũng là Armstrong number:<br />
+              1³ + 5³ + 3³ = 1 + 125 + 27 = 153 ✓
+            </li>
+            <li class="step-item">
+              <strong>3. Cách tách chữ số:</strong><br />
+              Dùng toán tử <code>%</code> (modulo) và <code>/</code> (division):<br />
+              - Chữ số hàng đơn vị: <code>num % 10</code><br />
+              - Chữ số hàng chục: <code>Math.floor(num / 10) % 10</code><br />
+              - Chữ số hàng trăm: <code>Math.floor(num / 100)</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Thuật toán:</strong><br />
+              Duyệt từ 100 đến 999, kiểm tra từng số xem có phải Armstrong không.
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Check if a number is Armstrong</span>
+            <span class="keyword">function</span> <span class="function">isArmstrong</span>(num) {
+              <span class="keyword">const</span> digit1 = num % 10;
+              <span class="keyword">const</span> digit2 = Math.<span class="function">floor</span>(num / 10) % 10;
+              <span class="keyword">const</span> digit3 = Math.<span class="function">floor</span>(num / 100);
+              
+              <span class="keyword">const</span> sum = digit1**3 + digit2**3 + digit3**3;
+              <span class="keyword">return</span> sum === num;
+            }
+
+            <span class="comment">// Find all 3-digit Armstrong numbers</span>
+            <span class="keyword">for</span> (<span class="keyword">let</span> i = 100; i <= 999; i++) {
+              <span class="keyword">if</span> (<span class="function">isArmstrong</span>(i)) {
+                console.<span class="function">log</span>(i);
+              }
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Function to check if a number is Armstrong
+function isArmstrong(num) {
+  // Extract digits
+  const digit1 = num % 10;
+  const digit2 = Math.floor(num / 10) % 10;
+  const digit3 = Math.floor(num / 100);
+  
+  // Calculate sum of cubes
+  const sumOfCubes = digit1**3 + digit2**3 + digit3**3;
+  
+  return sumOfCubes === num;
+}
+
+// Find all 3-digit Armstrong numbers
+CustomConsole.log("🔍 Finding all 3-digit Armstrong numbers...");
+CustomConsole.log("Range: 100 to 999\\n");
+
+const armstrongNumbers = [];
+
+for (let num = 100; num <= 999; num++) {
+  if (isArmstrong(num)) {
+    armstrongNumbers.push(num);
+    
+    // Show calculation for each Armstrong number
+    const d1 = num % 10;
+    const d2 = Math.floor(num / 10) % 10;
+    const d3 = Math.floor(num / 100);
+    
+    CustomConsole.success(\`\${num}: \${d3}³ + \${d2}³ + \${d1}³ = \${d3**3} + \${d2**3} + \${d1**3} = \${num}\`);
+  }
+}
+
+// Display results
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = "3-Digit Armstrong Numbers:\\n\\n";
+  output += armstrongNumbers.join(', ');
+  output += \`\\n\\nTotal found: \${armstrongNumbers.length}\`;
+  outputDiv.textContent = output;
+}
+
+CustomConsole.log(\`\\n✨ Found \${armstrongNumbers.length} Armstrong numbers!\`);
+CustomConsole.info(\`List: [\${armstrongNumbers.join(', ')}]\`);
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

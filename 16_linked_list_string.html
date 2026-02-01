@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 16: Linked List to String</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="15_swap_stack.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 16 of 27</span>
+      <a href="17_string_chop.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Linked List Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to see linked list conversion...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Singly Linked List</strong> (Danh sách liên kết đơn) là cấu trúc dữ liệu gồm các nodes,
+            mỗi node chứa data và pointer đến node tiếp theo.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Node Structure:</strong><br />
+              Mỗi node có 2 phần:<br />
+              - <code>data</code>: Giá trị lưu trữ<br />
+              - <code>next</code>: Pointer đến node tiếp theo (hoặc null)
+            </li>
+            <li class="step-item">
+              <strong>2. Linked List vs Array:</strong><br />
+              - Array: Liên tục trong memory, truy cập O(1)<br />
+              - Linked List: Rải rác trong memory, truy cập O(n)<br />
+              - Ưu điểm: Insert/Delete O(1) tại đầu list
+            </li>
+            <li class="step-item">
+              <strong>3. Traversal (Duyệt):</strong><br />
+              Bắt đầu từ head, đi qua từng node:<br />
+              <code>while (current !== null) { ... }</code><br />
+              Di chuyển: <code>current = current.next</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Convert to String:</strong><br />
+              Duyệt qua list, collect data vào array, join thành string:<br />
+              <code>"1 -> 2 -> 3 -> null"</code>
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Node class</span>
+            <span class="keyword">class</span> <span class="function">Node</span> {
+              <span class="function">constructor</span>(data) {
+                <span class="keyword">this</span>.data = data;
+                <span class="keyword">this</span>.next = <span class="keyword">null</span>;
+              }
+            }
+
+            <span class="comment">// Convert to string</span>
+            <span class="keyword">function</span> <span class="function">linkedListToString</span>(head) {
+              <span class="keyword">let</span> result = [];
+              <span class="keyword">let</span> current = head;
+              
+              <span class="keyword">while</span> (current !== <span class="keyword">null</span>) {
+                result.<span class="function">push</span>(current.data);
+                current = current.next;
+              }
+              
+              <span class="keyword">return</span> result.<span class="function">join</span>(<span class="string">' -> '</span>) + <span class="string">' -> null'</span>;
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Node class for Singly Linked List
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+// LinkedList class
+class LinkedList {
+  constructor() {
+    this.head = null;
+  }
+  
+  // Add node at the end
+  append(data) {
+    const newNode = new Node(data);
+    
+    if (!this.head) {
+      this.head = newNode;
+      return;
+    }
+    
+    let current = this.head;
+    while (current.next) {
+      current = current.next;
+    }
+    current.next = newNode;
+  }
+  
+  // Convert to string
+  toString() {
+    if (!this.head) {
+      return 'null';
+    }
+    
+    let result = [];
+    let current = this.head;
+    
+    while (current !== null) {
+      result.push(current.data);
+      current = current.next;
+    }
+    
+    return result.join(' -> ') + ' -> null';
+  }
+}
+
+// Demo: Create and convert linked lists
+CustomConsole.log('🔗 Singly Linked List to String\\n');
+
+// Test 1: Number list
+CustomConsole.log('--- Test 1: Numbers ---');
+const list1 = new LinkedList();
+[1, 2, 3, 4, 5].forEach(num => list1.append(num));
+const str1 = list1.toString();
+CustomConsole.success(\`List: \${str1}\`);
+
+// Test 2: String list
+CustomConsole.log('\\n--- Test 2: Strings ---');
+const list2 = new LinkedList();
+['A', 'B', 'C', 'D'].forEach(char => list2.append(char));
+const str2 = list2.toString();
+CustomConsole.success(\`List: \${str2}\`);
+
+// Test 3: Mixed data
+CustomConsole.log('\\n--- Test 3: Mixed Data ---');
+const list3 = new LinkedList();
+[10, 'hello', true, 42, 'world'].forEach(item => list3.append(item));
+const str3 = list3.toString();
+CustomConsole.success(\`List: \${str3}\`);
+
+// Test 4: Empty list
+CustomConsole.log('\\n--- Test 4: Empty List ---');
+const list4 = new LinkedList();
+const str4 = list4.toString();
+CustomConsole.info(\`List: \${str4}\`);
+
+// Display results
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Linked List to String Results:\\n\\n';
+  output += \`Test 1 (Numbers):\\n\${str1}\\n\\n\`;
+  output += \`Test 2 (Strings):\\n\${str2}\\n\\n\`;
+  output += \`Test 3 (Mixed):\\n\${str3}\\n\\n\`;
+  output += \`Test 4 (Empty):\\n\${str4}\`;
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success('\\n✨ All linked lists converted successfully!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

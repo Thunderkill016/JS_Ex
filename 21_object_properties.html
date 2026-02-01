@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 21: List Object Properties</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="20_canvas_rectangles.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 21 of 27</span>
+      <a href="22_string_rotation.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Object Properties Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to list object properties...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Object Properties</strong> là các key-value pairs trong JavaScript object.
+            Có nhiều cách để lấy danh sách properties của một object.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Object.keys():</strong><br />
+              Trả về array chứa tất cả property names:<br />
+              <code>Object.keys(obj)</code> <span class="nav-arrow">→</span> <code>['name', 'sclass', 'rollno']</code><br />
+              Đây là cách phổ biến nhất.
+            </li>
+            <li class="step-item">
+              <strong>2. for...in Loop:</strong><br />
+              Duyệt qua tất cả enumerable properties:<br />
+              <code>for (let key in obj) { ... }</code><br />
+              Lưu ý: Cũng duyệt qua inherited properties.
+            </li>
+            <li class="step-item">
+              <strong>3. Object.getOwnPropertyNames():</strong><br />
+              Lấy tất cả properties (kể cả non-enumerable):<br />
+              <code>Object.getOwnPropertyNames(obj)</code><br />
+              Bao gồm cả properties không enumerable.
+            </li>
+            <li class="step-item">
+              <strong>4. Join to String:</strong><br />
+              Chuyển array thành string với comma:<br />
+              <code>keys.join(',')</code> <span class="nav-arrow">→</span> <code>"name,sclass,rollno"</code>
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Sample object</span>
+            <span class="keyword">var</span> student = {
+              name: <span class="string">"David Rayy"</span>,
+              sclass: <span class="string">"VI"</span>,
+              rollno: 12
+            };
+
+            <span class="comment">// Get property names</span>
+            <span class="keyword">const</span> properties = Object.<span class="function">keys</span>(student);
+            console.<span class="function">log</span>(properties.<span class="function">join</span>(<span class="string">','</span>));
+            <span class="comment">// Output: "name,sclass,rollno"</span>
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Sample object from requirements
+var student = {
+  name: "David Rayy",
+  sclass: "VI",
+  rollno: 12
+};
+
+CustomConsole.log('📋 Listing Object Properties\\n');
+
+// Method 1: Object.keys() (Recommended)
+CustomConsole.log('--- Method 1: Object.keys() ---');
+const keys1 = Object.keys(student);
+CustomConsole.success(\`Properties: \${keys1.join(',')}\`);
+CustomConsole.info(\`Array: [\${keys1.map(k => '"' + k + '"').join(', ')}]\`);
+
+// Method 2: for...in loop
+CustomConsole.log('\\n--- Method 2: for...in loop ---');
+const keys2 = [];
+for (let key in student) {
+  if (student.hasOwnProperty(key)) {
+    keys2.push(key);
+  }
+}
+CustomConsole.success(\`Properties: \${keys2.join(',')}\`);
+
+// Method 3: Object.getOwnPropertyNames()
+CustomConsole.log('\\n--- Method 3: Object.getOwnPropertyNames() ---');
+const keys3 = Object.getOwnPropertyNames(student);
+CustomConsole.success(\`Properties: \${keys3.join(',')}\`);
+
+// Show property values too
+CustomConsole.log('\\n--- Property Details ---');
+Object.keys(student).forEach(key => {
+  CustomConsole.info(\`  \${key}: \${student[key]}\`);
+});
+
+// Test with more objects
+CustomConsole.log('\\n--- Additional Examples ---');
+
+const car = {
+  brand: "Toyota",
+  model: "Camry",
+  year: 2024,
+  color: "Silver"
+};
+CustomConsole.log(\`Car properties: \${Object.keys(car).join(',')}\`);
+
+const book = {
+  title: "JavaScript Guide",
+  author: "John Doe",
+  pages: 350
+};
+CustomConsole.log(\`Book properties: \${Object.keys(book).join(',')}\`);
+
+// Display results
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Object Properties Results:\\n\\n';
+  output += 'Student Object:\\n';
+  output += \`  Properties: \${Object.keys(student).join(',')}\\n\\n\`;
+  output += 'Details:\\n';
+  Object.keys(student).forEach(key => {
+    output += \`  \${key}: \${student[key]}\\n\`;
+  });
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success('\\n✨ All properties listed successfully!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

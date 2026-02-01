@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 17: String Chunking</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="16_linked_list_string.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 17 of 27</span>
+      <a href="18_binary_log.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            String Chunking Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to chop strings...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>String Chunking</strong> (Chia chuỗi thành chunks) là việc cắt một chuỗi dài
+            thành các phần nhỏ có độ dài cố định.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Default Chunk Size:</strong><br />
+              Nếu không truyền size, mặc định trả về toàn bộ string:<br />
+              <code>string_chop('w3resource')</code> <span class="nav-arrow">→</span> <code>["w3resource"]</code>
+            </li>
+            <li class="step-item">
+              <strong>2. String Slicing:</strong><br />
+              Dùng <code>slice(start, end)</code> để cắt chuỗi:<br />
+              <code>str.slice(0, 2)</code> <span class="nav-arrow">→</span> "w3"<br />
+              <code>str.slice(2, 4)</code> <span class="nav-arrow">→</span> "re"
+            </li>
+            <li class="step-item">
+              <strong>3. Loop Through String:</strong><br />
+              Dùng for loop với bước nhảy = chunk size:<br />
+              <code>for (let i = 0; i < str.length; i += size)</code><br />
+              Mỗi lần lấy <code>str.slice(i, i + size)</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Last Chunk:</strong><br />
+              Chunk cuối có thể ngắn hơn nếu string không chia hết:<br />
+              "w3resource" với size=3 <span class="nav-arrow">→</span> ["w3r", "eso", "urc", "e"]
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// String chunking function</span>
+            <span class="keyword">function</span> <span class="function">string_chop</span>(str, size = str.length) {
+              <span class="keyword">const</span> chunks = [];
+              
+              <span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i < str.length; i += size) {
+                chunks.<span class="function">push</span>(str.<span class="function">slice</span>(i, i + size));
+              }
+              
+              <span class="keyword">return</span> chunks;
+            }
+
+            <span class="comment">// Usage</span>
+            <span class="function">string_chop</span>(<span class="string">'w3resource'</span>);     <span class="comment">// ["w3resource"]</span>
+            <span class="function">string_chop</span>(<span class="string">'w3resource'</span>, 2);  <span class="comment">// ["w3", "re", "so", "ur", "ce"]</span>
+            <span class="function">string_chop</span>(<span class="string">'w3resource'</span>, 3);  <span class="comment">// ["w3r", "eso", "urc", "e"]</span>
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Function to chop string into chunks
+function string_chop(str, size = str.length) {
+  const chunks = [];
+  
+  // Loop through string with step = size
+  for (let i = 0; i < str.length; i += size) {
+    // Slice from i to i+size
+    chunks.push(str.slice(i, i + size));
+  }
+  
+  return chunks;
+}
+
+// Test cases from requirements
+CustomConsole.log('✂️ String Chunking Demo\\n');
+
+// Test 1: No size (default)
+CustomConsole.log('Test 1: string_chop("w3resource")');
+const result1 = string_chop('w3resource');
+CustomConsole.success(\`Result: [\${result1.map(s => '"' + s + '"').join(', ')}]\`);
+
+// Test 2: Size = 2
+CustomConsole.log('\\nTest 2: string_chop("w3resource", 2)');
+const result2 = string_chop('w3resource', 2);
+CustomConsole.success(\`Result: [\${result2.map(s => '"' + s + '"').join(', ')}]\`);
+
+// Test 3: Size = 3
+CustomConsole.log('\\nTest 3: string_chop("w3resource", 3)');
+const result3 = string_chop('w3resource', 3);
+CustomConsole.success(\`Result: [\${result3.map(s => '"' + s + '"').join(', ')}]\`);
+
+// Additional tests
+CustomConsole.log('\\n--- Additional Tests ---');
+
+// Test 4: Size = 4
+const result4 = string_chop('JavaScript', 4);
+CustomConsole.info(\`string_chop("JavaScript", 4): [\${result4.map(s => '"' + s + '"').join(', ')}]\`);
+
+// Test 5: Size = 1
+const result5 = string_chop('Hello', 1);
+CustomConsole.info(\`string_chop("Hello", 1): [\${result5.map(s => '"' + s + '"').join(', ')}]\`);
+
+// Display summary
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'String Chunking Results:\\n\\n';
+  output += \`Test 1 (default): [\${result1.join(', ')}]\\n\`;
+  output += \`Test 2 (size=2): [\${result2.join(', ')}]\\n\`;
+  output += \`Test 3 (size=3): [\${result3.join(', ')}]\\n\`;
+  output += \`\\nAdditional:\\n\`;
+  output += \`"JavaScript" (size=4): [\${result4.join(', ')}]\\n\`;
+  output += \`"Hello" (size=1): [\${result5.join(', ')}]\`;
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success('\\n✨ All strings chopped successfully!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

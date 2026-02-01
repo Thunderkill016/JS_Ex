@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 22: String Rotation</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+    
+    <!-- Mermaid.js for flowcharts -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="21_object_properties.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 22 of 27</span>
+      <a href="23_leap_year.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            String Rotation Demo
+          </div>
+          <div id="rotation-display" style="font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: bold; color: #58a6ff; text-shadow: 0 0 20px rgba(88, 166, 255, 0.4); letter-spacing: 4px; min-height: 60px;">w3resource</div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 80px;
+            white-space: pre-wrap;
+            text-align: left;
+            margin-top: 20px;
+          ">
+            Click "Run Code" to start rotation...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>String Rotation</strong> là việc di chuyển ký tự từ cuối chuỗi lên đầu (hoặc ngược lại).
+            Bài này thực hiện rotation theo hướng phải với animation.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Right Rotation:</strong><br />
+              Lấy ký tự cuối cùng <span class="nav-arrow">→</span> đặt vào đầu chuỗi:<br />
+              "w3resource" <span class="nav-arrow">→</span> "ew3resourc" <span class="nav-arrow">→</span> "cew3resour"...
+            </li>
+            <li class="step-item">
+              <strong>2. String Methods:</strong><br />
+              - <code>str.slice(-1)</code> <span class="nav-arrow">→</span> Lấy ký tự cuối<br />
+              - <code>str.slice(0, -1)</code> <span class="nav-arrow">→</span> Phần còn lại<br />
+              - Ghép: <code>lastChar + remaining</code>
+            </li>
+            <li class="step-item">
+              <strong>3. setInterval:</strong><br />
+              Dùng để lặp lại function sau mỗi khoảng thời gian:<br />
+              <code>setInterval(rotateString, 500)</code><br />
+              Tạo hiệu ứng animation liên tục.
+            </li>
+            <li class="step-item">
+              <strong>4. DOM Update:</strong><br />
+              Cập nhật UI sau mỗi lần rotate:<br />
+              <code>element.textContent = newString</code>
+            </li>
+          </ul>
+
+          <div class="tutorial-title" style="margin-top: 24px; border-top: 1px solid #30363d; padding-top: 16px;"><span class="title-icon">📊</span> Logic Flowchart</div>
+          <!-- prettier-ignore -->
+          <div class="mermaid" style="background: rgba(13, 17, 23, 0.5); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center;">
+            flowchart TD
+                Start([Start Animation]) --> GetElement[Get Element by ID]
+                GetElement --> GetTextNode[Get Text Node from childNodes]
+                GetTextNode --> GetText[Get Initial Text from textNode.data]
+                GetText --> SetInterval[Start setInterval 100ms]
+                SetInterval --> GetLast[Get Last Character: text length-1]
+                GetLast --> GetRemaining[Get Remaining: substring 0 to length-1]
+                GetRemaining --> Combine[Combine: lastChar + remaining]
+                Combine --> UpdateNode[Update textNode.data with new text]
+                UpdateNode --> Loop{Continue?}
+                Loop -- Yes --> GetLast
+                Loop -- No --> End([End])
+                
+                style Start fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style End fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style SetInterval fill:#1f6feb,stroke:#333,color:#fff
+                style Combine fill:#d29922,stroke:#333,color:#fff
+                style UpdateNode fill:#3fb950,stroke:#333,color:#fff
+          </div>
+
+          <div class="code-block">
+            <span class="comment">// Define animation function</span>
+            <span class="keyword">const</span> <span class="function">animate_string</span> = (id) => {
+              <span class="keyword">const</span> element = document.<span class="function">getElementById</span>(id);
+              <span class="keyword">const</span> textNode = element.childNodes[0];
+              <span class="keyword">let</span> text = textNode.data;
+              
+              <span class="function">setInterval</span>(() => {
+                <span class="comment">// Shift last char to front</span>
+                text = text[text.length - 1] + text.<span class="function">substring</span>(0, text.length - 1);
+                textNode.data = text;
+              }, 100);
+            };
+            
+            <span class="comment">// Call with element id</span>
+            <span class="function">animate_string</span>('rotation-display');
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Define a function named animate_string that takes an id as a parameter
+const animate_string = (id) => {
+    // Get the element with the specified id
+    const element = document.getElementById(id);
+
+    // Get the text node from the first child of the element
+    const textNode = element.childNodes[0]; // assuming no other children
+
+    // Get the initial text from the text node
+    let text = textNode.data.trim();
+
+    // Log initial state
+    CustomConsole.log('🔄 String Animation Started');
+    CustomConsole.info(\`Original text: "\${text}"\`);
+    
+    let count = 0;
+
+    // Use setInterval to animate the string every 100 milliseconds
+    const intervalId = setInterval(() => {
+        // Shift the last character to the front of the text
+        text = text[text.length - 1] + text.substring(0, text.length - 1);
+
+        // Update the text node with the new text
+        textNode.data = text;
+        
+        // Log each rotation
+        count++;
+        CustomConsole.success(\`Step \${count}: "\${text}"\`);
+        
+        // Stop after 10 rotations for demo
+        if (count >= 10) {
+            clearInterval(intervalId);
+            CustomConsole.log('\\n✨ Animation complete!');
+        }
+    }, 100);
+};
+
+// Call the function with the rotation display element
+animate_string('rotation-display');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

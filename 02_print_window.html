@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 2: Print Window</title>
+
+    <!-- CodeMirror CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css"
+    />
+
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+    <!-- Mermaid JS for Diagrams -->
+    <script defer src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "dark",
+        securityLevel: "loose",
+        fontFamily: "Inter, sans-serif",
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="01_current_day_time.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 2 of 27</span>
+      <a href="03_current_date.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="print-container">
+      <div class="icon-printer">🖨️</div>
+      <h1>Print This Page</h1>
+      <p>Click the button below to print the current window contents.</p>
+
+      <button onclick="print_current_page()" class="btn-primary">
+        Print Now
+      </button>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      <!-- Tutorial Section -->
+      <div class="tutorial-container">
+        <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+
+        <p
+          style="
+            color: #8b949e;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+          "
+        >
+          Trình duyệt cung cấp sẵn một tính năng để in trang web hiện tại, đó là
+          hàm <code>window.print()</code>.
+        </p>
+
+        <ul class="step-list">
+          <li class="step-item">
+            <strong>1. window object:</strong><br />
+            Là đối tượng đại diện cho cửa sổ trình duyệt. Nó chứa mọi thứ trong
+            trang web của bạn.
+          </li>
+          <li class="step-item">
+            <strong>2. hàm print():</strong><br />
+            Đây là một hành động (method) của đối tượng window. Khi gọi nó,
+            trình duyệt sẽ mở hộp thoại in mặc định (giống như khi bạn bấm Ctrl
+            + P).
+          </li>
+        </ul>
+
+        <div
+          class="tutorial-title"
+          style="
+            margin-top: 24px;
+            border-top: 1px solid #30363d;
+            padding-top: 16px;
+          "
+        ><span class="title-icon">📊</span> Logic Flowchart</div>
+        <!-- prettier-ignore -->
+        <div class="mermaid" style="background: rgba(13, 17, 23, 0.5); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center;">
+            flowchart LR
+                User([User Click]) --> Event[onclick event]
+                Event --> Func[Call print_current_page]
+                Func --> Win[window Object]
+                Win --> Method{run print method}
+                Method --> Modal[Browser Print Modal]
+                
+                style User fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style Modal fill:#1f6feb,stroke:#333,stroke-width:2px,color:#fff
+                style Method fill:#d29922,stroke:#333,color:#fff
+          </div>
+
+        <div class="code-block">
+          <span class="token-keyword">function</span>
+          <span class="token-function">print_current_page</span>() {
+          <span class="token-comment">// Gọi lệnh in của trình duyệt</span>
+          window.<span class="token-function">print</span>(); }
+        </div>
+      </div>
+
+      <!-- Mini IDE Container -->
+      <div id="ide-root" class="interaction-area"></div>
+    </div>
+
+    <script src="utils.js?v=5"></script>
+    <script>
+      // Function for the HTML button
+      function print_current_page() {
+        window.print();
+      }
+
+      const defaultCode = `
+// Function to print the page
+function printPage() {
+    CustomConsole.info("Opening Print Dialog in 1s...");
+    
+    setTimeout(() => {
+        window.print();
+        CustomConsole.success("Print command sent.");
+    }, 1000);
+}
+
+// Click Run to test
+printPage(); 
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

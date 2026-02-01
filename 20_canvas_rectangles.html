@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 20: Canvas Rectangles</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="19_dropdown_counter.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 20 of 27</span>
+      <a href="21_object_properties.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Canvas Rectangles Demo
+          </div>
+          
+          <!-- Canvas Element -->
+          <div style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; text-align: center;">
+            <canvas id="myCanvas" width="400" height="300" style="
+              background: white;
+              border-radius: 8px;
+              box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            "></canvas>
+          </div>
+          
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 80px;
+            white-space: pre-wrap;
+            text-align: left;
+            margin-top: 20px;
+          ">
+            Click "Run Code" to draw rectangles...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Canvas API</strong> cho phép vẽ graphics 2D bằng JavaScript.
+            Bài này học cách vẽ rectangles với alpha transparency (độ trong suốt).
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Canvas Setup:</strong><br />
+              HTML: <code>&lt;canvas id="myCanvas" width="400" height="300"&gt;</code><br />
+              JavaScript: <code>canvas.getContext('2d')</code><br />
+              Context 2D là object để vẽ.
+            </li>
+            <li class="step-item">
+              <strong>2. Drawing Rectangles:</strong><br />
+              <code>ctx.fillRect(x, y, width, height)</code><br />
+              - x, y: Tọa độ góc trên-trái<br />
+              - width, height: Kích thước rectangle
+            </li>
+            <li class="step-item">
+              <strong>3. Colors with Alpha:</strong><br />
+              <code>ctx.fillStyle = 'rgba(r, g, b, a)'</code><br />
+              - r, g, b: 0-255 (red, green, blue)<br />
+              - a: 0-1 (alpha: 0=trong suốt, 1=đặc)
+            </li>
+            <li class="step-item">
+              <strong>4. Overlapping Effect:</strong><br />
+              Vẽ rectangle thứ 2 với alpha < 1 sẽ tạo hiệu ứng trong suốt,
+              cho thấy phần giao nhau (intersection).
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Get canvas and context</span>
+            <span class="keyword">const</span> canvas = document.<span class="function">getElementById</span>(<span class="string">'myCanvas'</span>);
+            <span class="keyword">const</span> ctx = canvas.<span class="function">getContext</span>(<span class="string">'2d'</span>);
+
+            <span class="comment">// Draw first rectangle (solid)</span>
+            ctx.fillStyle = <span class="string">'rgba(255, 0, 0, 1)'</span>; <span class="comment">// Red, opaque</span>
+            ctx.<span class="function">fillRect</span>(50, 50, 200, 150);
+
+            <span class="comment">// Draw second rectangle (transparent)</span>
+            ctx.fillStyle = <span class="string">'rgba(0, 0, 255, 0.5)'</span>; <span class="comment">// Blue, 50% alpha</span>
+            ctx.<span class="function">fillRect</span>(150, 100, 200, 150);
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Get canvas element and 2D context
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+// Clear canvas first
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+CustomConsole.log('🎨 Drawing Intersecting Rectangles\\n');
+
+// Draw first rectangle (solid red)
+CustomConsole.info('Drawing Rectangle 1: Red (solid)');
+ctx.fillStyle = 'rgba(255, 0, 0, 1)'; // Red, 100% opaque
+ctx.fillRect(50, 50, 200, 150);
+CustomConsole.success('  Position: (50, 50), Size: 200x150');
+CustomConsole.info('  Color: rgba(255, 0, 0, 1)');
+
+// Draw second rectangle (semi-transparent blue)
+CustomConsole.log('\\nDrawing Rectangle 2: Blue (50% transparent)');
+ctx.fillStyle = 'rgba(0, 0, 255, 0.5)'; // Blue, 50% alpha
+ctx.fillRect(150, 100, 200, 150);
+CustomConsole.success('  Position: (150, 100), Size: 200x150');
+CustomConsole.info('  Color: rgba(0, 0, 255, 0.5)');
+
+// Calculate intersection area
+const rect1 = { x: 50, y: 50, w: 200, h: 150 };
+const rect2 = { x: 150, y: 100, w: 200, h: 150 };
+
+const intersectX = Math.max(rect1.x, rect2.x);
+const intersectY = Math.max(rect1.y, rect2.y);
+const intersectW = Math.min(rect1.x + rect1.w, rect2.x + rect2.w) - intersectX;
+const intersectH = Math.min(rect1.y + rect1.h, rect2.y + rect2.h) - intersectY;
+
+CustomConsole.log('\\n📐 Intersection Area:');
+CustomConsole.success(\`  Position: (\${intersectX}, \${intersectY})\`);
+CustomConsole.success(\`  Size: \${intersectW}x\${intersectH}\`);
+
+// Update output display
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Canvas Drawing Complete!\\n\\n';
+  output += 'Rectangle 1 (Red):\\n';
+  output += '  Position: (50, 50)\\n';
+  output += '  Size: 200x150\\n';
+  output += '  Alpha: 1.0 (solid)\\n\\n';
+  output += 'Rectangle 2 (Blue):\\n';
+  output += '  Position: (150, 100)\\n';
+  output += '  Size: 200x150\\n';
+  output += '  Alpha: 0.5 (50% transparent)\\n\\n';
+  output += \`Intersection: \${intersectW}x\${intersectH}\`;
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success('\\n✨ Rectangles drawn successfully!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

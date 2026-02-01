@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 11: Delayed Callback</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="10_double_click.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 11 of 27</span>
+      <a href="12_university_class.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Delayed Callback Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to see delayed callbacks...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>setTimeout()</strong> là hàm JavaScript để thực thi code sau một khoảng thời gian delay.
+            Đây là nền tảng của lập trình bất đồng bộ (asynchronous programming).
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Cú pháp cơ bản:</strong><br />
+              <code>setTimeout(callback, delay)</code><br />
+              - <code>callback</code>: Hàm sẽ được gọi sau delay<br />
+              - <code>delay</code>: Thời gian chờ (milliseconds)
+            </li>
+            <li class="step-item">
+              <strong>2. Callback Function:</strong><br />
+              Callback là hàm được truyền vào làm tham số:<br />
+              <code>setTimeout(() => { console.log('Done!') }, 2000)</code><br />
+              Sau 2 giây (2000ms), callback được thực thi.
+            </li>
+            <li class="step-item">
+              <strong>3. Asynchronous Execution:</strong><br />
+              Code sau setTimeout KHÔNG chờ callback:<br />
+              <code>setTimeout(() => console.log('B'), 1000);</code><br />
+              <code>console.log('A');</code><br />
+              Kết quả: "A" <span class="nav-arrow">→</span> "B" (A chạy ngay, B chạy sau 1s)
+            </li>
+            <li class="step-item">
+              <strong>4. Clearing Timeout:</strong><br />
+              Dùng <code>clearTimeout()</code> để hủy:<br />
+              <code>const id = setTimeout(...);</code><br />
+              <code>clearTimeout(id);</code>
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Delayed callback function</span>
+            <span class="keyword">function</span> <span class="function">delayedCallback</span>(callback, delay) {
+              <span class="function">setTimeout</span>(callback, delay);
+            }
+
+            <span class="comment">// Usage</span>
+            <span class="function">delayedCallback</span>(<span class="keyword">function</span>() {
+              console.<span class="function">log</span>(<span class="string">'Executed after 2 seconds!'</span>);
+            }, 2000);
+
+            <span class="comment">// With arrow function</span>
+            <span class="function">delayedCallback</span>(() => {
+              console.<span class="function">log</span>(<span class="string">'Arrow function callback'</span>);
+            }, 2000);
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Function that executes a callback after a delay
+function delayedCallback(callback, delay) {
+  CustomConsole.info(\`⏱ Setting timeout for \${delay}ms...\`);
+  setTimeout(callback, delay);
+}
+
+// Demo: Multiple delayed callbacks
+CustomConsole.log('🚀 Starting delayed callback demo...\\n');
+
+const startTime = Date.now();
+
+// Callback 1: After 1 second
+delayedCallback(() => {
+  const elapsed = Date.now() - startTime;
+  CustomConsole.success(\`✓ Callback 1 executed after \${elapsed}ms\`);
+}, 1000);
+
+// Callback 2: After 2 seconds
+delayedCallback(() => {
+  const elapsed = Date.now() - startTime;
+  CustomConsole.success(\`✓ Callback 2 executed after \${elapsed}ms\`);
+  
+  // Update output display
+  const outputDiv = document.getElementById('output-display');
+  if (outputDiv) {
+    outputDiv.textContent = \`All callbacks completed!\\n\\nCallback 1: ~1000ms\\nCallback 2: ~2000ms\\nCallback 3: ~3000ms\`;
+  }
+}, 2000);
+
+// Callback 3: After 3 seconds
+delayedCallback(() => {
+  const elapsed = Date.now() - startTime;
+  CustomConsole.success(\`✓ Callback 3 executed after \${elapsed}ms\`);
+}, 3000);
+
+CustomConsole.log('\\n⚡ Code continues executing immediately!');
+CustomConsole.info('Callbacks will run in the background...');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

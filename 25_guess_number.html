@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 25: Guess Number Game</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="24_jan1_sunday.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 25 of 27</span>
+      <a href="26_multiplication_division.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Random Integer Guess Game
+          </div>
+          
+          <!-- Game UI -->
+          <div style="background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 10px; margin-bottom: 20px;">
+            <p style="color: #c9d1d9; margin-bottom: 15px;">Guess a number between 1 and 10:</p>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+              <input type="number" id="userGuess" min="1" max="10" placeholder="1-10" style="
+                padding: 10px;
+                border-radius: 5px;
+                border: 2px solid #30363d;
+                background: #0d1117;
+                color: white;
+                font-family: 'JetBrains Mono', monospace;
+                width: 100px;
+                text-align: center;
+              ">
+              <button onclick="checkGuess()" style="
+                padding: 10px 20px;
+                background: #238636;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+              ">Guess</button>
+            </div>
+            <div id="result-message" style="
+              margin-top: 20px;
+              min-height: 24px;
+              font-weight: bold;
+              font-size: 1.1rem;
+            "></div>
+          </div>
+
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 80px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to initialize...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            Bài tập tạo game đoán số ngẫu nhiên từ 1 đến 10.
+            Bạn sẽ học cách tạo số ngẫu nhiên và so sánh input của người dùng.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Math.random():</strong><br />
+              Tạo số thập phân ngẫu nhiên từ 0 (inclusive) đến 1 (exclusive).<br />
+              Ví dụ: 0.123, 0.999
+            </li>
+            <li class="step-item">
+              <strong>2. Scale to Range (1-10):</strong><br />
+              <code>Math.random() * 10</code> <span class="nav-arrow">→</span> 0 đến 9.999...<br />
+              <code>Math.floor(...)</code> <span class="nav-arrow">→</span> làm tròn xuống (0-9)<br />
+              Cộng thêm 1 để được 1-10.
+            </li>
+            <li class="step-item">
+              <strong>3. Formula:</strong><br />
+              <code>const num = Math.ceil(Math.random() * 10);</code>
+              <br/>Hoặc:<br/>
+              <code>const num = Math.floor(Math.random() * 10) + 1;</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Comparison:</strong><br />
+              So sánh số người dùng nhập với số ngẫu nhiên.<br />
+              <code>if (guess === num)</code>
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Generate random number 1-10</span>
+            <span class="keyword">const</span> randomNum = Math.<span class="function">ceil</span>(Math.<span class="function">random</span>() * 10);
+            
+            <span class="comment">// Check user input</span>
+            <span class="keyword">if</span> (userGuess === randomNum) {
+              <span class="function">alert</span>(<span class="string">'Good Work'</span>);
+            } <span class="keyword">else</span> {
+              <span class="function">alert</span>(<span class="string">'Not matched'</span>);
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Initialize random number needed for the game
+// Standard way to get integer 1-10 inclusive
+let targetNumber = Math.floor(Math.random() * 10) + 1;
+
+CustomConsole.log('🎮 Guess Game Initialized');
+CustomConsole.info('A secret number between 1 and 10 has been generated.');
+CustomConsole.info('Enter your guess above or run checkGuess(n) manually.');
+
+// Log for debugging (in a real game we wouldn't show this at start!)
+// CustomConsole.log(\`Debug: The secret number is \${targetNumber}\`);
+
+// Make checkGuess global so the HTML button can see it
+window.checkGuess = checkGuess;
+
+function checkGuess() {
+  // Get input value
+  const inputEl = document.getElementById('userGuess');
+  const resultEl = document.getElementById('result-message');
+  
+  // Handle manual input or button click
+  let userGuess;
+  if (inputEl) {
+    userGuess = parseInt(inputEl.value);
+  } else {
+    // Fallback if running via console entirely without UI interaction
+    userGuess = arguments[0];
+  }
+
+  if (!userGuess || isNaN(userGuess)) {
+    CustomConsole.error('Please enter a valid number!');
+    if (resultEl) resultEl.textContent = '❌ Invalid Input';
+    return;
+  }
+
+  CustomConsole.log(\`\\nYou guessed: \${userGuess}\`);
+
+  if (userGuess === targetNumber) {
+    CustomConsole.success('🎉 Good Work');
+    if (resultEl) {
+      resultEl.textContent = '🎉 Good Work! You found it.';
+      resultEl.style.color = '#2ea043';
+    }
+    
+    // Reset for new game
+    targetNumber = Math.floor(Math.random() * 10) + 1;
+    CustomConsole.info('New secret number generated. Play again!');
+  } else {
+    CustomConsole.error('❌ Not matched');
+    if (resultEl) {
+      resultEl.textContent = \`❌ Not matched. The number was \${targetNumber}.\`;
+      resultEl.style.color = '#da3633';
+    }
+    
+    // Reset for simple flow so user keeps trying new numbers each time 
+    // OR keep same number. Requirement implies simple check.
+    // Let's reset to keep it dynamic as per "program takes a random integer... displays message"
+    targetNumber = Math.floor(Math.random() * 10) + 1;
+    CustomConsole.info('New secret number generated for next try.');
+  }
+}
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

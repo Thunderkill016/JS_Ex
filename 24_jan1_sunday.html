@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 24: Jan 1 Sunday</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+    
+    <!-- Mermaid.js for flowcharts -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="23_leap_year.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 24 of 27</span>
+      <a href="25_guess_number.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Years When Jan 1 is Sunday (2014-2050)
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to find years...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            Bài này tìm các năm trong khoảng 2014-2050 mà ngày 1 tháng 1 rơi vào Chủ Nhật.
+            Sử dụng Date object và getDay() method.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Date Constructor:</strong><br />
+              <code>new Date(year, month, day)</code><br />
+              - month: 0-11 (0 = January)<br />
+              - day: 1-31
+            </li>
+            <li class="step-item">
+              <strong>2. getDay() Method:</strong><br />
+              Trả về ngày trong tuần (0-6):<br />
+              - 0 = Sunday (Chủ Nhật)<br />
+              - 1 = Monday ... 6 = Saturday
+            </li>
+            <li class="step-item">
+              <strong>3. Loop Through Years:</strong><br />
+              <code>for (let year = 2014; year <= 2050; year++)</code><br />
+              Check nếu Jan 1 là Sunday (getDay() === 0)
+            </li>
+            <li class="step-item">
+              <strong>4. Collect Results:</strong><br />
+              Push các năm thỏa điều kiện vào array kết quả.
+            </li>
+          </ul>
+
+          <div class="tutorial-title" style="margin-top: 24px; border-top: 1px solid #30363d; padding-top: 16px;"><span class="title-icon">📊</span> Logic Flowchart</div>
+          <!-- prettier-ignore -->
+          <div class="mermaid" style="background: rgba(13, 17, 23, 0.5); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center;">
+            flowchart TD
+                Start([Start]) --> LogSep1[Log separator line]
+                LogSep1 --> InitLoop[Initialize: year = 2014]
+                InitLoop --> CheckLoop{year <= 2050?}
+                CheckLoop -- No --> LogSep2[Log separator line]
+                LogSep2 --> End([End])
+                CheckLoop -- Yes --> CreateDate[Create Date: new Date year, 0, 1]
+                CreateDate --> GetDay[Get day: d.getDay]
+                GetDay --> CheckSunday{getDay === 0?}
+                CheckSunday -- Yes --> LogYear[Log: 1st January is being a Sunday year]
+                CheckSunday -- No --> Increment
+                LogYear --> Increment[year++]
+                Increment --> CheckLoop
+                
+                style Start fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style End fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style CheckLoop fill:#1f6feb,stroke:#333,color:#fff
+                style CheckSunday fill:#1f6feb,stroke:#333,color:#fff
+                style LogYear fill:#3fb950,stroke:#333,color:#fff
+          </div>
+
+          <div class="code-block">
+            <span class="comment">// Log a separator to visually distinguish the output</span>
+            <span class="function">console</span>.<span class="function">log</span>(<span class="string">'--------------------'</span>);
+
+            <span class="comment">// Loop through the years from 2014 to 2050 (inclusive)</span>
+            <span class="keyword">for</span> (<span class="keyword">let</span> year = 2014; year <= 2050; year++) {
+                <span class="comment">// Create a Date object for January 1st of the current year</span>
+                <span class="keyword">const</span> d = <span class="keyword">new</span> <span class="function">Date</span>(year, 0, 1);
+
+                <span class="comment">// Check if January 1st is a Sunday (where Sunday corresponds to day index 0)</span>
+                <span class="keyword">if</span> (d.<span class="function">getDay</span>() === 0) {
+                    <span class="comment">// Log a message if January 1st is a Sunday for the current year using template literals</span>
+                    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`1st January is being a Sunday  ${year}`</span>);
+                }
+            }
+
+            <span class="comment">// Log another separator to conclude the output</span>
+            <span class="function">console</span>.<span class="function">log</span>(<span class="string">'--------------------'</span>);
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Log a separator to visually distinguish the output
+CustomConsole.log('--------------------');
+
+// Loop through the years from 2014 to 2050 (inclusive)
+for (let year = 2014; year <= 2050; year++) {
+    // Create a Date object for January 1st of the current year
+    const d = new Date(year, 0, 1);
+
+    // Check if January 1st is a Sunday (where Sunday corresponds to day index 0)
+    if (d.getDay() === 0) {
+        // Log a message if January 1st is a Sunday for the current year using template literals
+        CustomConsole.success(\`1st January is being a Sunday  \${year}\`);
+    }
+}
+
+// Log another separator to conclude the output
+CustomConsole.log('--------------------');
+
+// Update output display
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  const results = [];
+  for (let year = 2014; year <= 2050; year++) {
+    const d = new Date(year, 0, 1);
+    if (d.getDay() === 0) {
+      results.push(year);
+    }
+  }
+  let output = 'Years when January 1st is Sunday:\\n\\n';
+  output += results.join(', ');
+  output += \`\\n\\nTotal: \${results.length} years found\`;
+  outputDiv.textContent = output;
+}
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

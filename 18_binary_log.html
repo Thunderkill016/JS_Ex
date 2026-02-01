@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 18: Binary Logarithm</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="17_string_chop.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 18 of 27</span>
+      <a href="19_dropdown_counter.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Binary Logarithm Calculator
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to calculate log2...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Binary Logarithm (log₂n)</strong> là lũy thừa mà 2 phải được nâng lên để được n.
+            Ví dụ: log₂(8) = 3 vì 2³ = 8.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Khái niệm:</strong><br />
+              log₂(n) trả lời câu hỏi: "2 mũ bao nhiêu = n?"<br />
+              - log₂(1) = 0 (vì 2⁰ = 1)<br />
+              - log₂(2) = 1 (vì 2¹ = 2)<br />
+              - log₂(4) = 2 (vì 2² = 4)<br />
+              - log₂(32) = 5 (vì 2⁵ = 32)
+            </li>
+            <li class="step-item">
+              <strong>2. Bitwise Right Shift:</strong><br />
+              Operator <code>>></code> dịch bit sang phải:<br />
+              - 8 >> 1 = 4 (1000 <span class="nav-arrow">→</span> 0100)<br />
+              - 8 >> 2 = 2 (1000 <span class="nav-arrow">→</span> 0010)<br />
+              - 8 >> 3 = 1 (1000 <span class="nav-arrow">→</span> 0001)<br />
+              Mỗi lần shift = chia cho 2
+            </li>
+            <li class="step-item">
+              <strong>3. Algorithm:</strong><br />
+              Đếm số lần shift phải cho đến khi n = 1:<br />
+              <code>while (n > 1) { n >>= 1; count++; }</code><br />
+              Count chính là log₂(n)
+            </li>
+            <li class="step-item">
+              <strong>4. Chỉ áp dụng cho Powers of 2:</strong><br />
+              Bài này giả định n là lũy thừa của 2.<br />
+              Nếu không, kết quả là floor(log₂(n)).
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Binary logarithm using bitwise</span>
+            <span class="keyword">function</span> <span class="function">log2</span>(n) {
+              <span class="keyword">let</span> count = 0;
+              
+              <span class="keyword">while</span> (n > 1) {
+                n >>= 1; <span class="comment">// Right shift (divide by 2)</span>
+                count++;
+              }
+              
+              <span class="keyword">return</span> count;
+            }
+
+            <span class="comment">// Examples</span>
+            <span class="function">log2</span>(1);   <span class="comment">// 0</span>
+            <span class="function">log2</span>(2);   <span class="comment">// 1</span>
+            <span class="function">log2</span>(4);   <span class="comment">// 2</span>
+            <span class="function">log2</span>(32);  <span class="comment">// 5</span>
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Binary logarithm using bitwise operators
+function log2(n) {
+  if (n <= 0) {
+    return -1; // Invalid input
+  }
+  
+  let count = 0;
+  
+  // Right shift until n becomes 1
+  while (n > 1) {
+    n >>= 1; // Bitwise right shift (divide by 2)
+    count++;
+  }
+  
+  return count;
+}
+
+// Test cases from requirements
+const testCases = [
+  { input: 1, expected: 0 },
+  { input: 2, expected: 1 },
+  { input: 4, expected: 2 },
+  { input: 32, expected: 5 },
+  { input: 8, expected: 3 },
+  { input: 16, expected: 4 },
+  { input: 64, expected: 6 },
+  { input: 128, expected: 7 },
+  { input: 256, expected: 8 },
+  { input: 1024, expected: 10 }
+];
+
+CustomConsole.log('📊 Binary Logarithm Calculator\\n');
+
+let results = [];
+let passCount = 0;
+
+testCases.forEach(test => {
+  const result = log2(test.input);
+  const status = result === test.expected ? '✅' : '❌';
+  const binary = test.input.toString(2);
+  const power = \`2^\${result} = \${Math.pow(2, result)}\`;
+  
+  if (result === test.expected) passCount++;
+  
+  CustomConsole.log(\`log2(\${test.input}): \${result} \${status}\`);
+  CustomConsole.info(\`  Binary: \${binary}\`);
+  CustomConsole.info(\`  Verify: \${power}\`);
+  
+  results.push(\`log2(\${test.input}) = \${result} \${status}\`);
+});
+
+// Display results
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Binary Logarithm Results:\\n\\n';
+  output += results.join('\\n');
+  output += \`\\n\\nPassed: \${passCount}/\${testCases.length}\`;
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success(\`\\n✨ Tests passed: \${passCount}/\${testCases.length}\`);
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

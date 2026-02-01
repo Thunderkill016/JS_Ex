@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 13: Power of 2</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="12_university_class.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 13 of 27</span>
+      <a href="14_remove_duplicates.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Power of 2 Checker
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to check powers of 2...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Power of 2</strong> (Lũy thừa của 2) là số có dạng 2ⁿ: 1, 2, 4, 8, 16, 32, 64, 128, 256...
+            Có nhiều cách để kiểm tra, nhưng cách hiệu quả nhất dùng bitwise operations.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Đặc điểm Power of 2:</strong><br />
+              Trong binary, power of 2 chỉ có 1 bit = 1:<br />
+              - 1 = 0001<br />
+              - 2 = 0010<br />
+              - 4 = 0100<br />
+              - 8 = 1000<br />
+              - 16 = 10000
+            </li>
+            <li class="step-item">
+              <strong>2. Bitwise Trick:</strong><br />
+              Nếu n là power of 2, thì:<br />
+              <code>n & (n - 1) === 0</code><br />
+              Ví dụ: 8 & 7 = 1000 & 0111 = 0000 ✓
+            </li>
+            <li class="step-item">
+              <strong>3. Edge Cases:</strong><br />
+              - n ≤ 0 <span class="nav-arrow">→</span> KHÔNG phải power of 2<br />
+              - n = 1 <span class="nav-arrow">→</span> 2⁰ = 1 ✓ (là power of 2)
+            </li>
+            <li class="step-item">
+              <strong>4. Alternative Methods:</strong><br />
+              - Loop: Chia liên tục cho 2<br />
+              - Math: <code>Math.log2(n) % 1 === 0</code><br />
+              - Bitwise: <code>n & (n-1) === 0</code> (Fastest!)
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Efficient bitwise solution</span>
+            <span class="keyword">function</span> <span class="function">isPowerOf2</span>(n) {
+              <span class="keyword">return</span> n > 0 && (n & (n - 1)) === 0;
+            }
+
+            <span class="comment">// Alternative: Loop method</span>
+            <span class="keyword">function</span> <span class="function">isPowerOf2Loop</span>(n) {
+              <span class="keyword">if</span> (n <= 0) <span class="keyword">return</span> <span class="keyword">false</span>;
+              <span class="keyword">while</span> (n % 2 === 0) {
+                n = n / 2;
+              }
+              <span class="keyword">return</span> n === 1;
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Function to check if a number is a power of 2
+function power_of_2(n) {
+  // Edge case: numbers <= 0 are not powers of 2
+  if (n <= 0) return false;
+  
+  // Bitwise trick: n & (n-1) === 0 for powers of 2
+  // Example: 8 (1000) & 7 (0111) = 0
+  return (n & (n - 1)) === 0;
+}
+
+// Test cases from requirements
+const testCases = [
+  { num: 16, expected: true },
+  { num: 18, expected: false },
+  { num: 256, expected: true },
+  { num: 1, expected: true },
+  { num: 0, expected: false },
+  { num: 64, expected: true },
+  { num: 100, expected: false },
+  { num: 1024, expected: true }
+];
+
+CustomConsole.log('🔍 Testing Power of 2 Checker\\n');
+
+let results = [];
+let passCount = 0;
+
+testCases.forEach(test => {
+  const result = power_of_2(test.num);
+  const status = result === test.expected ? '✅' : '❌';
+  const binary = test.num.toString(2).padStart(8, '0');
+  
+  if (result === test.expected) passCount++;
+  
+  CustomConsole.log(\`power_of_2(\${test.num}): \${result} \${status}\`);
+  CustomConsole.info(\`  Binary: \${binary}\`);
+  
+  results.push(\`\${test.num} <span class="nav-arrow">→</span> \${result} \${status}\`);
+});
+
+// Display results
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Power of 2 Test Results:\\n\\n';
+  output += results.join('\\n');
+  output += \`\\n\\nPassed: \${passCount}/\${testCases.length}\`;
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success(\`\\n✨ Tests passed: \${passCount}/\${testCases.length}\`);
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

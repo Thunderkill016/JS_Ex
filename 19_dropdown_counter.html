@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 19: Count Dropdown Items</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="18_binary_log.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 19 of 27</span>
+      <a href="20_canvas_rectangles.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Dropdown Counter Demo
+          </div>
+          
+          <!-- Interactive Dropdown -->
+          <div style="background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 10px; margin-bottom: 20px;">
+            <form style="text-align: center;">
+              <label style="color: #c9d1d9; font-size: 1rem; margin-right: 10px;">
+                Select your favorite Color:
+              </label>
+              <select id="mySelect" style="
+                padding: 8px 15px;
+                font-size: 1rem;
+                border-radius: 5px;
+                border: 2px solid #30363d;
+                background: #0d1117;
+                color: #c9d1d9;
+                cursor: pointer;
+              ">
+                <option>Red</option>
+                <option>Green</option>
+                <option>Blue</option>
+                <option>White</option>
+              </select>
+              <button type="button" onclick="getOptions()" style="
+                padding: 8px 20px;
+                margin-left: 10px;
+                font-size: 1rem;
+                border-radius: 5px;
+                border: none;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                cursor: pointer;
+                font-weight: bold;
+              ">
+                Count Items
+              </button>
+            </form>
+          </div>
+          
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 80px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to activate dropdown counter...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Dropdown List</strong> (Select element) là form control cho phép user chọn từ danh sách options.
+            Bài này học cách đếm và hiển thị tất cả items trong dropdown.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Select Element:</strong><br />
+              HTML: <code>&lt;select id="mySelect"&gt;</code><br />
+              JavaScript: <code>document.getElementById('mySelect')</code><br />
+              Truy cập dropdown qua ID.
+            </li>
+            <li class="step-item">
+              <strong>2. Options Collection:</strong><br />
+              <code>select.options</code> - Array-like object chứa tất cả options<br />
+              <code>select.options.length</code> - Số lượng options<br />
+              <code>select.options[i].text</code> - Text của option thứ i
+            </li>
+            <li class="step-item">
+              <strong>3. Loop Through Options:</strong><br />
+              Dùng for loop để duyệt qua tất cả options:<br />
+              <code>for (let i = 0; i < options.length; i++)</code><br />
+              Lấy text: <code>options[i].text</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Display Results:</strong><br />
+              Có thể dùng <code>alert()</code> hoặc log ra console.<br />
+              Format: "Total: 4 items - Red, Green, Blue, White"
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Count and display dropdown items</span>
+            <span class="keyword">function</span> <span class="function">getOptions</span>() {
+              <span class="keyword">const</span> select = document.<span class="function">getElementById</span>(<span class="string">'mySelect'</span>);
+              <span class="keyword">const</span> options = select.options;
+              
+              <span class="keyword">let</span> items = [];
+              <span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i < options.length; i++) {
+                items.<span class="function">push</span>(options[i].text);
+              }
+              
+              <span class="keyword">const</span> message = \`Total: \${options.length} items\\n\${items.<span class="function">join</span>(', ')}\`;
+              <span class="function">alert</span>(message);
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Function to count and display dropdown items
+function getOptions() {
+  // Get the select element
+  const select = document.getElementById('mySelect');
+  
+  if (!select) {
+    CustomConsole.error('❌ Select element not found!');
+    return;
+  }
+  
+  // Get options collection
+  const options = select.options;
+  const count = options.length;
+  
+  // Collect all option texts
+  let items = [];
+  for (let i = 0; i < options.length; i++) {
+    items.push(options[i].text);
+  }
+  
+  // Create message
+  const message = \`Total: \${count} items\\n\${items.join(', ')}\`;
+  
+  // Display in alert (as per requirement)
+  alert(message);
+  
+  // Also log to console
+  CustomConsole.success(\`✅ Found \${count} dropdown items\`);
+  items.forEach((item, index) => {
+    CustomConsole.info(\`  \${index + 1}. \${item}\`);
+  });
+  
+  // Update output display
+  const outputDiv = document.getElementById('output-display');
+  if (outputDiv) {
+    let output = \`Dropdown Items Count: \${count}\\n\\n\`;
+    output += 'Items:\\n';
+    items.forEach((item, i) => {
+      output += \`  \${i + 1}. \${item}\\n\`;
+    });
+    outputDiv.textContent = output;
+  }
+}
+
+// Demo: Auto-run to show how it works
+CustomConsole.log('🎨 Dropdown Counter Initialized\\n');
+CustomConsole.info('Click "Count Items" button above to see results');
+CustomConsole.info('Or call getOptions() function manually');
+
+// Show initial state
+const select = document.getElementById('mySelect');
+if (select) {
+  CustomConsole.success(\`\\nDropdown found with \${select.options.length} options\`);
+}
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

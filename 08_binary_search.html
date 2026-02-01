@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 8: Binary Search</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="07_count_vowels.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 8 of 27</span>
+      <a href="09_armstrong_numbers.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Binary Search Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to see binary search in action...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Binary Search</strong> (Tìm kiếm nhị phân) là thuật toán tìm kiếm hiệu quả trên mảng đã sắp xếp.
+            Thay vì duyệt từng phần tử, ta chia đôi mảng liên tục để tìm nhanh hơn.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Điều kiện:</strong><br />
+              Mảng phải được <strong>sắp xếp tăng dần</strong> (hoặc giảm dần).<br />
+              Nếu mảng chưa sắp xếp, binary search sẽ KHÔNG hoạt động đúng.
+            </li>
+            <li class="step-item">
+              <strong>2. Thuật toán:</strong><br />
+              - Chọn phần tử giữa (middle)<br />
+              - Nếu middle = target <span class="nav-arrow">→</span> Tìm thấy!<br />
+              - Nếu middle > target <span class="nav-arrow">→</span> Tìm bên trái<br />
+              - Nếu middle < target <span class="nav-arrow">→</span> Tìm bên phải<br />
+              - Lặp lại cho đến khi tìm thấy hoặc hết mảng
+            </li>
+            <li class="step-item">
+              <strong>3. Time Complexity:</strong><br />
+              <code>O(log n)</code> - Rất nhanh!<br />
+              So sánh: Linear search = O(n), Binary search = O(log n)
+            </li>
+            <li class="step-item">
+              <strong>4. Ví dụ:</strong><br />
+              Tìm số 5 trong [0,1,2,3,4,5,6]:<br />
+              Step 1: middle = 3 (< 5) <span class="nav-arrow">→</span> Tìm bên phải<br />
+              Step 2: middle = 5 (= 5) <span class="nav-arrow">→</span> Tìm thấy tại index 5!
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Binary Search Implementation</span>
+            <span class="keyword">function</span> <span class="function">binarySearch</span>(arr, target) {
+              <span class="keyword">let</span> left = 0;
+              <span class="keyword">let</span> right = arr.length - 1;
+              
+              <span class="keyword">while</span> (left <= right) {
+                <span class="keyword">const</span> mid = Math.<span class="function">floor</span>((left + right) / 2);
+                
+                <span class="keyword">if</span> (arr[mid] === target) {
+                  <span class="keyword">return</span> mid; <span class="comment">// Found!</span>
+                } <span class="keyword">else if</span> (arr[mid] < target) {
+                  left = mid + 1; <span class="comment">// Search right</span>
+                } <span class="keyword">else</span> {
+                  right = mid - 1; <span class="comment">// Search left</span>
+                }
+              }
+              
+              <span class="keyword">return</span> -1; <span class="comment">// Not found</span>
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Binary Search: O(log n) time complexity
+function binarySearch(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+  let steps = 0;
+  
+  while (left <= right) {
+    steps++;
+    const mid = Math.floor((left + right) / 2);
+    
+    CustomConsole.info(\`Step \${steps}: Checking index \${mid} (value: \${arr[mid]})\`);
+    
+    if (arr[mid] === target) {
+      CustomConsole.success(\`Found \${target} at index \${mid} in \${steps} steps!\`);
+      return mid;
+    } else if (arr[mid] < target) {
+      CustomConsole.log(\`\${arr[mid]} < \${target}, search right half\`);
+      left = mid + 1;
+    } else {
+      CustomConsole.log(\`\${arr[mid]} > \${target}, search left half\`);
+      right = mid - 1;
+    }
+  }
+  
+  CustomConsole.error(\`\${target} not found in array\`);
+  return -1;
+}
+
+// Test array (must be sorted!)
+const sortedArray = [0, 1, 2, 3, 4, 5, 6];
+
+// Test cases
+const testCases = [
+  { target: 5, expected: 5 },
+  { target: 0, expected: 0 },
+  { target: 6, expected: 6 },
+  { target: 3, expected: 3 },
+  { target: 10, expected: -1 }
+];
+
+let results = [];
+results.push(\`Array: [\${sortedArray.join(', ')}]\\n\`);
+
+testCases.forEach(test => {
+  CustomConsole.log(\`\\n🔍 Searching for: \${test.target}\`);
+  const result = binarySearch(sortedArray, test.target);
+  
+  const status = result === test.expected ? '✅ PASS' : '❌ FAIL';
+  results.push(\`Search(\${test.target}) <span class="nav-arrow">→</span> Index \${result} \${status}\`);
+});
+
+// Display in output area
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  outputDiv.textContent = results.join('\\n');
+}
+
+CustomConsole.success(\`\\nCompleted \${testCases.length} test cases!\`);
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

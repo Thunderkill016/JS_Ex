@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 14: Remove Duplicates</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="13_power_of_2.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 14 of 27</span>
+      <a href="15_swap_stack.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Remove Duplicates Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to remove duplicates...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Remove Duplicates</strong> (Loại bỏ trùng lặp) là thao tác phổ biến với arrays.
+            Bài này yêu cầu <strong>case-insensitive</strong> - không phân biệt hoa/thường.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Case-Insensitive:</strong><br />
+              "Apple" và "apple" được coi là giống nhau.<br />
+              Cần chuyển về lowercase trước khi so sánh.
+            </li>
+            <li class="step-item">
+              <strong>2. Using Set (Simple):</strong><br />
+              <code>new Set(array)</code> tự động loại duplicates.<br />
+              Nhưng Set phân biệt hoa/thường!<br />
+              <span class="nav-arrow">→</span> Cần custom logic cho case-insensitive.
+            </li>
+            <li class="step-item">
+              <strong>3. Using Map/Object:</strong><br />
+              Dùng lowercase làm key để track:<br />
+              <code>seen[item.toLowerCase()] = item</code><br />
+              Giữ lại item đầu tiên gặp.
+            </li>
+            <li class="step-item">
+              <strong>4. Filter Method:</strong><br />
+              Dùng <code>filter()</code> với <code>indexOf()</code>:<br />
+              Chỉ giữ item xuất hiện lần đầu.
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Case-insensitive duplicate removal</span>
+            <span class="keyword">function</span> <span class="function">removeDuplicates</span>(arr) {
+              <span class="keyword">const</span> seen = {};
+              <span class="keyword">const</span> result = [];
+              
+              <span class="keyword">for</span> (<span class="keyword">let</span> item <span class="keyword">of</span> arr) {
+                <span class="keyword">const</span> key = item.<span class="function">toLowerCase</span>();
+                <span class="keyword">if</span> (!seen[key]) {
+                  seen[key] = <span class="keyword">true</span>;
+                  result.<span class="function">push</span>(item);
+                }
+              }
+              
+              <span class="keyword">return</span> result;
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Remove duplicates (case-insensitive)
+function removeDuplicates(arr) {
+  const seen = {};
+  const result = [];
+  
+  for (let item of arr) {
+    // Use lowercase as key for case-insensitive comparison
+    const key = item.toLowerCase();
+    
+    if (!seen[key]) {
+      seen[key] = true;
+      result.push(item); // Keep original case
+    }
+  }
+  
+  return result;
+}
+
+// Test arrays
+const testArrays = [
+  ['Apple', 'Banana', 'apple', 'Orange', 'BANANA'],
+  ['JavaScript', 'Python', 'javascript', 'Java', 'PYTHON'],
+  ['Red', 'Blue', 'red', 'Green', 'blue', 'RED'],
+  ['a', 'A', 'b', 'B', 'a', 'c']
+];
+
+CustomConsole.log('🔍 Removing Duplicates (Case-Insensitive)\\n');
+
+let allResults = [];
+
+testArrays.forEach((arr, index) => {
+  CustomConsole.log(\`Test \${index + 1}:\`);
+  CustomConsole.info(\`  Original: [\${arr.join(', ')}]\`);
+  
+  const unique = removeDuplicates(arr);
+  CustomConsole.success(\`  Unique: [\${unique.join(', ')}]\`);
+  CustomConsole.log(\`  Removed: \${arr.length - unique.length} duplicates\\n\`);
+  
+  allResults.push({
+    original: arr,
+    unique: unique,
+    removed: arr.length - unique.length
+  });
+});
+
+// Display summary
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Duplicate Removal Results:\\n\\n';
+  allResults.forEach((result, i) => {
+    output += \`Test \${i + 1}:\\n\`;
+    output += \`  Original: [\${result.original.join(', ')}]\\n\`;
+    output += \`  Unique: [\${result.unique.join(', ')}]\\n\`;
+    output += \`  Removed: \${result.removed}\\n\\n\`;
+  });
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success('✨ All duplicates removed successfully!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

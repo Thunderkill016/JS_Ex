@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 27: Triangle Area (Heron's Formula)</title>
+
+    <!-- CodeMirror CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css"
+    />
+
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+
+    <!-- Mermaid.js for flowcharts -->
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "dark" });
+    </script>
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="26_multiplication_division.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 27 of 27</span>
+      <span class="nav-btn disabled">Next <span class="nav-arrow">→</span></span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="clock-container" style="max-width: 600px">
+      <div class="day-label" style="margin-bottom: 30px">
+        Triangle Area Calculator
+      </div>
+
+      <div
+        style="
+          background: rgba(255, 255, 255, 0.05);
+          padding: 30px;
+          border-radius: 15px;
+          text-align: center;
+        "
+      >
+        <div style="font-size: 0.9rem; color: #8b949e; margin-bottom: 10px">
+          Triangle with sides: 5, 6, 7
+        </div>
+        <div
+          id="area-display"
+          style="
+            font-size: 3rem;
+            font-family: &quot;JetBrains Mono&quot;;
+            color: #3fb950;
+            font-weight: bold;
+          "
+        >
+          --
+        </div>
+        <div style="font-size: 0.8rem; color: #8b949e; margin-top: 10px">
+          square units
+        </div>
+      </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      <!-- Tutorial Section -->
+      <div class="tutorial-container">
+        <div class="tutorial-title"><span class="title-icon">🎓</span> Công thức Heron tính diện tích tam giác</div>
+
+        <p
+          style="
+            color: #8b949e;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+          "
+        >
+          Công thức Heron cho phép tính diện tích tam giác khi biết độ dài 3
+          cạnh,
+          <strong style="color: #ff7b72">không cần biết chiều cao</strong>!
+        </p>
+
+        <ul class="step-list">
+          <li class="step-item">
+            <strong>1. Khai báo độ dài 3 cạnh:</strong> Gán giá trị cho
+            <code>side1</code>, <code>side2</code>, <code>side3</code>.
+          </li>
+          <li class="step-item">
+            <strong>2. Tính nửa chu vi (semi-perimeter):</strong><br />
+            Công thức: <code>s = (a + b + c) / 2</code><br />
+            Trong code: <code>perimeter = (side1 + side2 + side3) / 2</code>
+          </li>
+          <li class="step-item">
+            <strong>3. Áp dụng công thức Heron:</strong><br />
+            Diện tích = √[s × (s - a) × (s - b) × (s - c)]<br />
+            Sử dụng <code>Math.sqrt()</code> để tính căn bậc hai.
+          </li>
+          <li class="step-item">
+            <strong>4. Hiển thị kết quả:</strong> In ra diện tích tam giác.
+          </li>
+        </ul>
+
+        <div
+          class="tutorial-title"
+          style="
+            margin-top: 24px;
+            border-top: 1px solid #30363d;
+            padding-top: 16px;
+          "
+        ><span class="title-icon">📊</span> Logic Flowchart</div>
+        <!-- prettier-ignore -->
+        <div class="mermaid" style="background: rgba(13, 17, 23, 0.5); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center;">
+          flowchart TD
+              Start([Start]) --> Input[Declare side1, side2, side3]
+              Input --> CalcPerimeter[Calculate Semi-Perimeter<br/>s = side1 + side2 + side3 / 2]
+              CalcPerimeter --> CalcDiff1[Calculate: s - side1]
+              CalcDiff1 --> CalcDiff2[Calculate: s - side2]
+              CalcDiff2 --> CalcDiff3[Calculate: s - side3]
+              CalcDiff3 --> Multiply[Multiply: s × s-side1 × s-side2 × s-side3]
+              Multiply --> Sqrt[Calculate Square Root<br/>area = Math.sqrt result]
+              Sqrt --> Output[Display Area]
+              Output --> End([End])
+              
+              style Start fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+              style End fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+              style CalcPerimeter fill:#1f6feb,stroke:#333,color:#fff
+              style Sqrt fill:#d29922,stroke:#333,color:#fff
+              style Output fill:#3fb950,stroke:#333,color:#fff
+        </div>
+
+        <div class="code-block">
+          <span class="token-comment">// Khai báo độ dài 3 cạnh tam giác</span>
+          <span class="token-keyword">const</span> side1 =
+          <span class="token-number">5</span>;
+          <span class="token-keyword">const</span> side2 =
+          <span class="token-number">6</span>;
+          <span class="token-keyword">const</span> side3 =
+          <span class="token-number">7</span>;
+
+          <span class="token-comment">// Tính nửa chu vi</span>
+          <span class="token-keyword">const</span> perimeter = (side1 + side2 +
+          side3) / <span class="token-number">2</span>;
+
+          <span class="token-comment">// Áp dụng công thức Heron</span>
+          <span class="token-keyword">const</span> area =
+          <span class="token-class">Math</span>.<span class="token-function"
+            >sqrt</span
+          >( perimeter * ((perimeter - side1) * (perimeter - side2) * (perimeter
+          - side3)) );
+
+          <span class="token-comment">// Hiển thị kết quả</span>
+          <span class="token-function">console</span>.<span
+            class="token-function"
+            >log</span
+          >(area);
+        </div>
+      </div>
+
+      <!-- Mini IDE Container -->
+      <div id="ide-root" class="interaction-area"></div>
+    </div>
+
+    <script src="utils.js?v=5"></script>
+    <script>
+      const defaultCode = `// Declare constants for the lengths of the three sides of a triangle
+const side1 = 5; 
+const side2 = 6; 
+const side3 = 7; 
+
+// Calculate the semi-perimeter of the triangle
+const perimeter = (side1 + side2 + side3) / 2;
+
+// Use Heron's formula to calculate the area of the triangle
+const area = Math.sqrt(perimeter * ((perimeter - side1) * (perimeter - side2) * (perimeter - side3)));
+
+// Update UI
+try {
+  document.getElementById('area-display').innerText = area.toFixed(2);
+} catch(e) {}
+
+// Log the calculated area to the console
+CustomConsole.log('Triangle sides: ' + side1 + ', ' + side2 + ', ' + side3);
+CustomConsole.log('Semi-perimeter: ' + perimeter);
+CustomConsole.log('Area: ' + area);
+    `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

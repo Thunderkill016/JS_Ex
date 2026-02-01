@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 1: Current Day & Time</title>
+    
+    <!-- CodeMirror CSS -->
+    <!-- CodeMirror CSS (Non-blocking) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    </noscript>
+    
+    <!-- CodeMirror JS -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+    <!-- Mermaid JS for Diagrams -->
+    <script defer src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => mermaid.initialize({startOnLoad:true, theme: 'dark', securityLevel: 'loose', fontFamily: 'Inter, sans-serif'}));</script>
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <span class="nav-btn disabled"><span class="nav-arrow">←</span> Previous</span>
+      <span class="exercise-number">Exercise 1 of 27</span>
+      <a href="02_print_window.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Centered Clock Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container">
+          <div class="day-label">
+            Today is: <span id="day-display" class="day-value">Loading...</span>
+          </div>
+          <div class="time-display" id="time-display">-- : -- : --</div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial Only -->
+      <div class="left-panel">
+         <!-- Clock moved out -->
+
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            Để làm được đồng hồ này, chúng ta cần 3 bước chính:
+            <strong>Lấy dữ liệu</strong> (từ máy tính), <strong>Xử lý</strong> (đổi sang định dạng đẹp), và <strong>Hiển thị</strong> (cập nhật liên tục).
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Nguyên liệu (Data Source):</strong><br />
+              Javascript có sẵn công cụ <code>new Date()</code>. Nó giống như bạn nhìn vào đồng hồ hệ thống của máy tính để biết giờ hiện tại.
+            </li>
+            <li class="step-item">
+              <strong>2. Xử lý Thứ (Day Mapping):</strong><br />
+              Máy tính trả về thứ dưới dạng số (0 là Chủ nhật, 1 là Thứ hai...). Chúng ta cần một "cuốn từ điển" (mảng Array) để dịch số này sang tiếng Anh/Việt.
+            </li>
+            <li class="step-item">
+              <strong>3. Logic 12 giờ (AM/PM):</strong><br />
+              Đồng hồ máy tính thường là 24h (0-23).
+              <ul style="margin-top: 5px; padding-left: 20px; color: #8b949e; font-size: 0.9em;">
+                <li>Nếu giờ &lt; 12: Là sáng (AM).</li>
+                <li>Nếu giờ >= 12: Là chiều/tối (PM).</li>
+                <li>Nếu giờ > 12: Ta trừ đi 12 để quay về 1, 2, 3... chiều.</li>
+              </ul>
+            </li>
+            <li class="step-item">
+              <strong>4. Cập nhật liên tục (Loop):</strong><br />
+              Hàm <code>setInterval</code> giống như một cái đồng hồ báo thức, cứ mỗi 1000ms (1 giây) nó sẽ "reng" một lần để nhắc trình duyệt vẽ lại giờ mới.
+            </li>
+          </ul>
+
+          <div class="tutorial-title" style="margin-top: 24px; border-top: 1px solid #30363d; padding-top: 16px;"><span class="title-icon">📊</span> Logic Flowchart</div>
+          <div class="mermaid" style="background: rgba(13, 17, 23, 0.5); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center;">
+            flowchart TD
+                Start([Start Timer]) --> GetTime[Get Date & Time]
+                GetTime --> CheckDay[Convert Day Number to Name]
+                CheckDay --> CheckAMPM{Hour >= 12?}
+                CheckAMPM -- Yes --> SetPM[Set 'PM']
+                CheckAMPM -- No --> SetAM[Set 'AM']
+                SetPM --> Format12h{Hour > 12?}
+                Format12h -- Yes --> Subtract12[Hour = Hour - 12]
+                Format12h -- No --> CheckSpecial[Check Special Cases]
+                SetAM --> CheckSpecial
+                Subtract12 --> CheckSpecial
+                CheckSpecial --> Special{Hour == 0?}
+                Special -- Yes --> CheckExact{Min=0 & Sec=0?}
+                Special -- No --> FormatStr[Format Output]
+                CheckExact -- Yes --> SetNoonMid[Set 'Noon' / 'Midnight']
+                CheckExact -- No --> Set12[Set Hour = 12]
+                SetNoonMid --> FormatStr
+                Set12 --> FormatStr
+                FormatStr --> UpdateUI[Update Display]
+                UpdateUI --> End([Wait 1s])
+                End -.-> Start
+                
+                style Start fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style End fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style CheckAMPM fill:#1f6feb,stroke:#333,color:#fff
+                style Format12h fill:#1f6feb,stroke:#333,color:#fff
+                style Special fill:#d29922,stroke:#333,color:#fff
+                style CheckExact fill:#d29922,stroke:#333,color:#fff
+          </div>
+          
+          <div class="code-block">
+            <span class="comment">// Get the current date and time</span>
+            <span class="keyword">const</span> today = <span class="keyword">new</span> <span class="function">Date</span>();
+            
+            <span class="comment">// Get the day of the week (0-6)</span>
+            <span class="keyword">const</span> day = today.<span class="function">getDay</span>();
+            <span class="keyword">const</span> daylist = [<span class="string">"Sunday"</span>, <span class="string">"Monday"</span>, <span class="string">"Tuesday"</span>, <span class="string">"Wednesday"</span>, <span class="string">"Thursday"</span>, <span class="string">"Friday"</span>, <span class="string">"Saturday"</span>];
+            
+            <span class="function">console.log</span>(`Today is: ${daylist[day]}.`);
+            
+            <span class="comment">// Get current time</span>
+            <span class="keyword">let</span> hour = today.<span class="function">getHours</span>();
+            <span class="keyword">const</span> minute = today.<span class="function">getMinutes</span>();
+            <span class="keyword">const</span> second = today.<span class="function">getSeconds</span>();
+            
+            <span class="comment">// Determine AM/PM</span>
+            <span class="keyword">let</span> prepand = (hour >= 12) ? <span class="string">" PM "</span> : <span class="string">" AM "</span>;
+            hour = (hour >= 12) ? hour - 12 : hour;
+            
+            <span class="comment">// Check for special cases: Noon/Midnight</span>
+            <span class="keyword">if</span> (hour === 0 && prepand === <span class="string">' PM '</span>) {
+                <span class="keyword">if</span> (minute === 0 && second === 0) {
+                    hour = 12; prepand = <span class="string">' Noon'</span>;
+                } <span class="keyword">else</span> {
+                    hour = 12; prepand = <span class="string">' PM'</span>;
+                }
+            }
+            <span class="keyword">if</span> (hour === 0 && prepand === <span class="string">' AM '</span>) {
+                <span class="keyword">if</span> (minute === 0 && second === 0) {
+                    hour = 12; prepand = <span class="string">' Midnight'</span>;
+                } <span class="keyword">else</span> {
+                    hour = 12; prepand = <span class="string">' AM'</span>;
+                }
+            }
+            
+            <span class="function">console.log</span>(`Current Time: ${hour}${prepand} : ${minute} : ${second}`);
+          </div>
+        </div>
+      </div>
+
+
+    <!-- Console & Run Area -->
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script defer src="utils.js?v=5"></script>
+    <script>
+      // Default Code for Student
+      const defaultCode = `
+// Variable to store the timer interval
+if (window.clockInterval) clearInterval(window.clockInterval);
+
+function updateClock() {
+  const today = new Date();
+  
+  // Get Day
+  const day = today.getDay();
+  const daylist = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayName = daylist[day];
+  
+  // Update UI for Day
+  const dayDisplay = document.getElementById("day-display");
+  if(dayDisplay) dayDisplay.textContent = dayName;
+
+  // Get Time
+  let hour = today.getHours();
+  const minute = today.getMinutes();
+  const second = today.getSeconds();
+
+  // Determine AM or PM
+  let prepand = (hour >= 12) ? " PM " : " AM ";
+
+  // Convert 24-hour format to 12-hour format
+  hour = (hour >= 12) ? hour - 12 : hour;
+
+  // Check for special cases when hour is 0 and it's PM
+  if (hour === 0 && prepand === ' PM ') {
+      if (minute === 0 && second === 0) {
+          hour = 12;
+          prepand = ' Noon';
+      } else {
+          hour = 12;
+          prepand = ' PM';
+      }
+  }
+
+  // Check for special cases when hour is 0 and it's AM
+  if (hour === 0 && prepand === ' AM ') {
+      if (minute === 0 && second === 0) {
+          hour = 12;
+          prepand = ' Midnight';
+      } else {
+          hour = 12;
+          prepand = ' AM';
+      }
+  }
+  
+  // Formatting helper for minutes/seconds
+  const fmt = (num) => num.toString().padStart(2, '0');
+
+  // Update UI for Time
+  const timeString = \`\${hour}\${prepand} <span class="separator">:</span> \${fmt(minute)} <span class="separator">:</span> \${fmt(second)}\`;
+  const timeDisplay = document.getElementById("time-display");
+  if(timeDisplay) timeDisplay.innerHTML = timeString;
+  
+  // Log to custom console (simplified for demo)
+  // CustomConsole.log(\`Current Time: \${hour}\${prepand} : \${minute} : \${second}\`);
+}
+
+// Start immediately
+updateClock();
+
+// Loop every second
+window.clockInterval = setInterval(updateClock, 1000);
+CustomConsole.success("Clock started with new Noon/Midnight logic!");
+      `;
+
+      // Initialize IDE
+      document.addEventListener('DOMContentLoaded', () => {
+        MiniIDE.create("ide-root", defaultCode);
+      });
+    </script>
+  </body>
+</html>

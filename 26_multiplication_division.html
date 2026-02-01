@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 26: Multiply & Divide</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+    <style>
+      .calc-form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+      .input-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .calc-input {
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid #30363d;
+        background: #0d1117;
+        color: white;
+        font-family: 'JetBrains Mono', monospace;
+        width: 120px;
+        text-align: center;
+      }
+      .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+      }
+      .btn-calc {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        transition: transform 0.1s;
+      }
+      .btn-calc:active {
+        transform: scale(0.95);
+      }
+      .btn-mul { background: #d2a8ff; color: #0d1117; }
+      .btn-div { background: #58a6ff; color: #0d1117; }
+      #calc-result {
+        margin-top: 10px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #e6edf3;
+        min-height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="25_guess_number.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 26 of 27</span>
+      <a href="27_triangle_area.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Simple Calculator
+          </div>
+          
+          <!-- Calculator UI -->
+          <div class="calc-form">
+            <div class="input-group">
+              <label>1st Number:</label>
+              <input type="number" id="firstNumber" class="calc-input" placeholder="12" value="12">
+            </div>
+            
+            <div class="input-group">
+              <label>2nd Number:</label>
+              <input type="number" id="secondNumber" class="calc-input" placeholder="10" value="10">
+            </div>
+            
+            <div class="btn-group">
+              <button onclick="multiplyBy()" class="btn-calc btn-mul">Multiply (*)</button>
+              <button onclick="divideBy()" class="btn-calc btn-div">Divide (/)</button>
+            </div>
+            
+            <div id="calc-result">The Result is: <br></div>
+          </div>
+
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 60px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Logs will appear here...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            Bài tập về tương tác với Form và thực hiện phép tính cơ bản.
+            Key concepts: DOM values, parsing numbers, và arithmetic operators.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Get Input Values:</strong><br />
+              <code>document.getElementById('id').value</code><br />
+              Giá trị lấy từ input luôn là <strong>string</strong>.
+            </li>
+            <li class="step-item">
+              <strong>2. Convert to Number:</strong><br />
+              Cần chuyển đổi string thành number để tính toán:<br />
+              <code>parseInt()</code> (số nguyên) hoặc <code>parseFloat()</code> (số thập phân).<br />
+              Hoặc đơn giản dùng <code>Number()</code>.
+            </li>
+            <li class="step-item">
+              <strong>3. Arithmetic Operators:</strong><br />
+              <code>*</code> (Nhân), <code>/</code> (Chia)<br />
+              Lưu ý: Chia cho 0 sẽ ra <code>Infinity</code>.
+            </li>
+            <li class="step-item">
+              <strong>4. Display Result:</strong><br />
+              Gán kết quả vào một element:<br />
+              <code>el.innerHTML = result</code>
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="keyword">function</span> <span class="function">multiplyBy</span>() {
+              <span class="keyword">const</span> num1 = document.<span class="function">getElementById</span>(<span class="string">'n1'</span>).value;
+              <span class="keyword">const</span> num2 = document.<span class="function">getElementById</span>(<span class="string">'n2'</span>).value;
+              
+              <span class="comment">// DOM values are strings!</span>
+              <span class="keyword">const</span> result = num1 * num2; <span class="comment">// JS coercions works for *</span>
+              
+              document.<span class="function">getElementById</span>(<span class="string">'result'</span>).innerHTML = result;
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Make functions global so HTML buttons can see them
+window.multiplyBy = multiplyBy;
+window.divideBy = divideBy;
+
+// Function to Multiply
+function multiplyBy() {
+  // Get values from input fields
+  // Note: .value returns a string
+  const num1 = document.getElementById("firstNumber").value;
+  const num2 = document.getElementById("secondNumber").value;
+  
+  // Validation
+  if (num1 === '' || num2 === '') {
+    CustomConsole.error('Please enter both numbers!');
+    return;
+  }
+
+  // Calculate
+  // JavaScript automatically converts strings to numbers for multiplication
+  const result = num1 * num2;
+  
+  // Display result
+  updateDisplay(result);
+  CustomConsole.success(\`Calculated: \${num1} * \${num2} = \${result}\`);
+}
+
+// Function to Divide
+function divideBy() {
+  const num1 = document.getElementById("firstNumber").value;
+  const num2 = document.getElementById("secondNumber").value;
+
+  if (num1 === '' || num2 === '') {
+    CustomConsole.error('Please enter both numbers!');
+    return;
+  }
+
+  // Check for division by zero
+  // Note: dividing by "0" string works in JS (returns Infinity), but good to handle
+  if (parseFloat(num2) === 0) {
+    CustomConsole.error('Cannot divide by zero!');
+    updateDisplay('Infinity (Division by Zero)');
+    return;
+  }
+
+  const result = num1 / num2;
+  
+  updateDisplay(result);
+  CustomConsole.success(\`Calculated: \${num1} / \${num2} = \${result}\`);
+}
+
+// Helper to update the UI
+function updateDisplay(value) {
+  const resultEl = document.getElementById("calc-result");
+  if (resultEl) {
+    resultEl.innerHTML = \`The Result is: <br><span style="color: #58a6ff; font-size: 1.5em">\${value}</span>\`;
+  }
+}
+
+CustomConsole.log('🧮 Calculator Ready');
+CustomConsole.info('Enter numbers and click buttons to calculate.');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

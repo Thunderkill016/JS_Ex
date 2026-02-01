@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 23: Leap Year</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+    
+    <!-- Mermaid.js for flowcharts -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="22_string_rotation.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 23 of 27</span>
+      <a href="24_jan1_sunday.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Leap Year Checker
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to check leap years...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Leap Year (Năm nhuận)</strong> theo lịch Gregorian có 366 ngày thay vì 365.
+            Tháng 2 có 29 ngày thay vì 28.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Quy tắc Gregorian:</strong><br />
+              Một năm là năm nhuận nếu:<br />
+              - Chia hết cho 4<br />
+              - NHƯNG không chia hết cho 100<br />
+              - TRỪ KHI chia hết cho 400
+            </li>
+            <li class="step-item">
+              <strong>2. Ví dụ:</strong><br />
+              - 2024 ✓ (÷4, không ÷100)<br />
+              - 1900 ✗ (÷4, ÷100, không ÷400)<br />
+              - 2000 ✓ (÷4, ÷100, ÷400)
+            </li>
+            <li class="step-item">
+              <strong>3. Logic JavaScript:</strong><br />
+              <code>(year % 4 === 0 && year % 100 !== 0)</code><br />
+              <code>|| (year % 400 === 0)</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Alternative Method:</strong><br />
+              Dùng Date object của JavaScript:<br />
+              <code>new Date(year, 1, 29).getDate() === 29</code><br />
+              Nếu Feb 29 tồn tại <span class="nav-arrow">→</span> năm nhuận.
+            </li>
+          </ul>
+
+          <div class="tutorial-title" style="margin-top: 24px; border-top: 1px solid #30363d; padding-top: 16px;"><span class="title-icon">📊</span> Logic Flowchart</div>
+          <!-- prettier-ignore -->
+          <div class="mermaid" style="background: rgba(13, 17, 23, 0.5); padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center;">
+            flowchart TD
+                Start([Input: year]) --> Check100{year % 100 === 0?}
+                Check100 -- Yes --> Check400{year % 400 === 0?}
+                Check100 -- No --> Check4{year % 4 === 0?}
+                Check400 -- Yes --> Leap[Return TRUE]
+                Check400 -- No --> NotLeap[Return FALSE]
+                Check4 -- Yes --> Leap
+                Check4 -- No --> NotLeap
+                Leap --> End([End])
+                NotLeap --> End
+                
+                style Start fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style End fill:#238636,stroke:#333,stroke-width:2px,color:#fff
+                style Check100 fill:#1f6feb,stroke:#333,color:#fff
+                style Check400 fill:#1f6feb,stroke:#333,color:#fff
+                style Check4 fill:#1f6feb,stroke:#333,color:#fff
+                style Leap fill:#3fb950,stroke:#333,color:#fff
+                style NotLeap fill:#ff7b72,stroke:#333,color:#fff
+          </div>
+
+          <div class="code-block">
+            <span class="comment">// Leap year with ternary operator</span>
+            <span class="keyword">const</span> <span class="function">leapyear</span> = (year) => {
+              <span class="keyword">return</span> (year % 100 === 0) 
+                ? (year % 400 === 0) 
+                : (year % 4 === 0);
+            };
+
+            <span class="function">leapyear</span>(2016);  <span class="comment">// true</span>
+            <span class="function">leapyear</span>(2000);  <span class="comment">// true</span>
+            <span class="function">leapyear</span>(1700);  <span class="comment">// false</span>
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Define a function named leapyear that takes a year as a parameter
+const leapyear = (year) => {
+   // Use the ternary operator to check if the year is a leap year
+   return (year % 100 === 0) ? (year % 400 === 0) : (year % 4 === 0);
+};
+
+// Test the function with sample years
+const testYears = [2016, 2000, 1700, 1800, 100, 2024, 1900, 2400];
+
+CustomConsole.log('📅 Leap Year Checker\\n');
+
+let results = [];
+testYears.forEach(year => {
+  const result = leapyear(year);
+  const label = result ? '✓ LEAP YEAR' : '✗ NOT LEAP';
+  const icon = result ? '🟢' : '🔴';
+  
+  // Show reasoning
+  let reason = '';
+  if (year % 100 === 0) {
+    reason = year % 400 === 0 ? '(÷100 and ÷400)' : '(÷100 but not ÷400)';
+  } else {
+    reason = year % 4 === 0 ? '(÷4 and not ÷100)' : '(not ÷4)';
+  }
+  
+  CustomConsole.log(\`\${icon} \${year}: \${label} \${reason}\`);
+  results.push(\`\${year} <span class="nav-arrow">→</span> \${label}\`);
+});
+
+// Display results
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Leap Year Test Results:\\n\\n';
+  output += results.join('\\n');
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success('\\n✨ All tests completed!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

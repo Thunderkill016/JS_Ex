@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 15: Swap Stack Elements</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="14_remove_duplicates.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 15 of 27</span>
+      <a href="16_linked_list_string.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Stack Swap Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to see stack swap...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            <strong>Stack</strong> là cấu trúc dữ liệu LIFO (Last In, First Out) - vào sau ra trước.
+            Giống như chồng đĩa: đĩa cuối cùng đặt lên sẽ được lấy ra đầu tiên.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Stack Operations:</strong><br />
+              - <code>push(item)</code> - Thêm vào đỉnh stack<br />
+              - <code>pop()</code> - Lấy ra từ đỉnh stack<br />
+              - <code>peek()</code> - Xem phần tử đỉnh (không xóa)<br />
+              - <code>isEmpty()</code> - Kiểm tra stack rỗng
+            </li>
+            <li class="step-item">
+              <strong>2. Swap Top Two:</strong><br />
+              Để swap 2 phần tử trên cùng:<br />
+              1. Pop phần tử thứ nhất (top)<br />
+              2. Pop phần tử thứ hai (second)<br />
+              3. Push phần tử thứ nhất trở lại<br />
+              4. Push phần tử thứ hai trở lại
+            </li>
+            <li class="step-item">
+              <strong>3. Edge Cases:</strong><br />
+              - Stack có < 2 phần tử <span class="nav-arrow">→</span> Không thể swap<br />
+              - Cần kiểm tra size trước khi swap
+            </li>
+            <li class="step-item">
+              <strong>4. Array as Stack:</strong><br />
+              JavaScript array có thể dùng như stack:<br />
+              - <code>push()</code> = stack push<br />
+              - <code>pop()</code> = stack pop
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Swap top two elements</span>
+            <span class="keyword">function</span> <span class="function">swapTop</span>(stack) {
+              <span class="keyword">if</span> (stack.length < 2) {
+                <span class="keyword">return</span> stack; <span class="comment">// Can't swap</span>
+              }
+              
+              <span class="keyword">const</span> first = stack.<span class="function">pop</span>();
+              <span class="keyword">const</span> second = stack.<span class="function">pop</span>();
+              
+              stack.<span class="function">push</span>(first);
+              stack.<span class="function">push</span>(second);
+              
+              <span class="keyword">return</span> stack;
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Function to swap top two elements of a stack
+function swapTop(stack) {
+  if (stack.length < 2) {
+    CustomConsole.error('❌ Cannot swap: Stack has fewer than 2 elements');
+    return stack;
+  }
+  
+  // Pop top two elements
+  const first = stack.pop();
+  const second = stack.pop();
+  
+  CustomConsole.info(\`Popped: \${first} and \${second}\`);
+  
+  // Push back in swapped order
+  stack.push(first);
+  stack.push(second);
+  
+  CustomConsole.success(\`Swapped! New top: \${second}\`);
+  
+  return stack;
+}
+
+// Demo: Create and manipulate stacks
+CustomConsole.log('📚 Stack Swap Demonstration\\n');
+
+// Test 1: Normal stack
+CustomConsole.log('--- Test 1: Normal Stack ---');
+let stack1 = [1, 2, 3, 4, 5];
+CustomConsole.info(\`Before: [\${stack1.join(', ')}] (top: \${stack1[stack1.length-1]})\`);
+swapTop(stack1);
+CustomConsole.info(\`After:  [\${stack1.join(', ')}] (top: \${stack1[stack1.length-1]})\\n\`);
+
+// Test 2: String stack
+CustomConsole.log('--- Test 2: String Stack ---');
+let stack2 = ['A', 'B', 'C', 'D'];
+CustomConsole.info(\`Before: [\${stack2.join(', ')}] (top: \${stack2[stack2.length-1]})\`);
+swapTop(stack2);
+CustomConsole.info(\`After:  [\${stack2.join(', ')}] (top: \${stack2[stack2.length-1]})\\n\`);
+
+// Test 3: Edge case - only 2 elements
+CustomConsole.log('--- Test 3: Exactly 2 Elements ---');
+let stack3 = [10, 20];
+CustomConsole.info(\`Before: [\${stack3.join(', ')}]\`);
+swapTop(stack3);
+CustomConsole.info(\`After:  [\${stack3.join(', ')}]\\n\`);
+
+// Test 4: Edge case - only 1 element
+CustomConsole.log('--- Test 4: Only 1 Element ---');
+let stack4 = [42];
+CustomConsole.info(\`Before: [\${stack4.join(', ')}]\`);
+swapTop(stack4);
+CustomConsole.info(\`After:  [\${stack4.join(', ')}]\\n\`);
+
+// Display summary
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  let output = 'Stack Swap Results:\\n\\n';
+  output += \`Test 1: [1,2,3,4,5] <span class="nav-arrow">→</span> [\${stack1.join(',')}]\\n\`;
+  output += \`Test 2: [A,B,C,D] <span class="nav-arrow">→</span> [\${stack2.join(',')}]\\n\`;
+  output += \`Test 3: [10,20] <span class="nav-arrow">→</span> [\${stack3.join(',')}]\\n\`;
+  output += \`Test 4: [42] <span class="nav-arrow">→</span> [\${stack4.join(',')}] (no change)\\n\`;
+  outputDiv.textContent = output;
+}
+
+CustomConsole.success('\\n✨ All stack operations completed!');
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>

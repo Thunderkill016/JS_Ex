@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Preconnect hints for faster CDN resolution -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Exercise 7: Count Vowels</title>
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/monokai.min.css">
+    
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    
+    <link rel="preload" href="style.min.css" as="style">
+    <link rel="stylesheet" href="style.min.css?v=15" />
+  </head>
+  <body>
+    <!-- Back to Dashboard -->
+    <a href="index.html" class="btn-back"><span class="nav-arrow">←</span> Dashboard</a>
+
+
+    <!-- Exercise Navigation -->
+    <div class="exercise-nav">
+      <a href="06_error_handling.html" class="nav-btn"><span class="nav-arrow">←</span> Previous</a>
+      <span class="exercise-number">Exercise 7 of 27</span>
+      <a href="08_binary_search.html" class="nav-btn">Next <span class="nav-arrow">→</span></a>
+    </div>
+
+    <!-- Demo Output Section -->
+    <div class="clock-section" style="width: 100%; display: flex; justify-content: center; margin-top: 40px;">
+        <div class="clock-container" style="max-width: 800px;">
+          <div class="day-label" style="margin-bottom: 20px;">
+            Count Vowels Demo
+          </div>
+          <div id="output-display" style="
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+            min-height: 100px;
+            white-space: pre-wrap;
+            text-align: left;
+          ">
+            Click "Run Code" to count vowels...
+          </div>
+        </div>
+    </div>
+
+    <!-- Split Layout Container -->
+    <div class="exercise-split-view">
+      
+      <!-- Left Panel: Tutorial -->
+      <div class="left-panel">
+        <!-- Tutorial Section -->
+        <div class="tutorial-container">
+          <div class="tutorial-title"><span class="title-icon">🎓</span> Giải thích chi tiết cho người mới</div>
+          <p style="color: #8b949e; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+            Đếm nguyên âm (vowels) là bài tập cơ bản về xử lý chuỗi.
+            Nguyên âm tiếng Anh gồm: <strong>a, e, i, o, u</strong> (cả chữ hoa và chữ thường).
+            Lưu ý: Chữ 'y' KHÔNG được tính là nguyên âm trong bài này.
+          </p>
+          <ul class="step-list">
+            <li class="step-item">
+              <strong>1. Chuyển về lowercase:</strong><br />
+              Dùng <code>toLowerCase()</code> để không phân biệt hoa/thường.<br />
+              "Hello" <span class="nav-arrow">→</span> "hello" (dễ so sánh hơn)
+            </li>
+            <li class="step-item">
+              <strong>2. Duyệt từng ký tự:</strong><br />
+              Có 3 cách:
+              <ul style="margin-top: 5px; padding-left: 20px; color: #8b949e; font-size: 0.9em;">
+                <li><code>for...of</code> loop - Dễ đọc nhất</li>
+                <li><code>for (i = 0; i < str.length; i++)</code> - Cổ điển</li>
+                <li><code>Array.from(str).filter()</code> - Functional style</li>
+              </ul>
+            </li>
+            <li class="step-item">
+              <strong>3. Kiểm tra nguyên âm:</strong><br />
+              Dùng <code>includes()</code> hoặc regex:<br />
+              <code>"aeiou".includes(char)</code> hoặc <code>/[aeiou]/i.test(char)</code>
+            </li>
+            <li class="step-item">
+              <strong>4. Đếm và trả về:</strong><br />
+              Tăng biến đếm mỗi khi gặp nguyên âm, cuối cùng return tổng số.
+            </li>
+          </ul>
+          <div class="code-block">
+            <span class="comment">// Cách 1: For...of loop</span>
+            <span class="keyword">function</span> <span class="function">countVowels</span>(str) {
+              <span class="keyword">let</span> count = 0;
+              <span class="keyword">const</span> vowels = <span class="string">"aeiou"</span>;
+              
+              <span class="keyword">for</span> (<span class="keyword">let</span> char <span class="keyword">of</span> str.<span class="function">toLowerCase</span>()) {
+                <span class="keyword">if</span> (vowels.<span class="function">includes</span>(char)) {
+                  count++;
+                }
+              }
+              <span class="keyword">return</span> count;
+            }
+
+            <span class="comment">// Cách 2: Regex + match</span>
+            <span class="keyword">function</span> <span class="function">countVowels</span>(str) {
+              <span class="keyword">const</span> matches = str.<span class="function">match</span>(<span class="string">/[aeiou]/gi</span>);
+              <span class="keyword">return</span> matches ? matches.length : 0;
+            }
+          </div>
+        </div>
+      </div>
+
+    <!-- Mini IDE Container -->
+    <div id="ide-root" class="interaction-area"></div>
+
+    <script src="utils.js?v=7"></script>
+    <script>
+      const defaultCode = `
+// Function to count vowels in a string
+function countVowels(str) {
+  let count = 0;
+  const vowels = "aeiou";
+  
+  // Convert to lowercase and iterate
+  for (let char of str.toLowerCase()) {
+    if (vowels.includes(char)) {
+      count++;
+    }
+  }
+  
+  return count;
+}
+
+// Test cases
+const testStrings = [
+  "The quick brown fox",
+  "Hello World",
+  "JavaScript",
+  "aeiou",
+  "bcdfg",
+  "PROGRAMMING"
+];
+
+let results = [];
+
+testStrings.forEach(str => {
+  const vowelCount = countVowels(str);
+  results.push(\`"\${str}" <span class="nav-arrow">→</span> \${vowelCount} vowels\`);
+  CustomConsole.info(\`"\${str}" has \${vowelCount} vowel(s)\`);
+});
+
+// Display in output area
+const outputDiv = document.getElementById('output-display');
+if (outputDiv) {
+  outputDiv.textContent = results.join('\\n\\n');
+}
+
+CustomConsole.success(\`Tested \${testStrings.length} strings!\`);
+      `;
+
+      MiniIDE.create("ide-root", defaultCode);
+    </script>
+  </body>
+</html>
+```
