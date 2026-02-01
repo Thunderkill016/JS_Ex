@@ -2,20 +2,31 @@
 <html lang="en">
   <head>
     <!-- Preconnect hints for faster CDN resolution -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap"
+    />
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JS Exercises Dashboard</title>
-    <link rel="preload" href="style.css" as="style">
-    <link rel="stylesheet" href="style.css?v=15" />
+    <link rel="preload" href="style.css" as="style" />
+    <link
+      rel="stylesheet"
+      href="style.css?v=15"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="style.css?v=15" />
+    </noscript>
   </head>
   <body class="dashboard-body">
     <header class="dashboard-header">
@@ -362,7 +373,10 @@
     </main>
 
     <footer class="dashboard-footer">
-      <p>Built with <span class="footer-icon">❤️</span> for JavaScript learners | 27 Exercises</p>
+      <p>
+        Built with <span class="footer-icon">❤️</span> for JavaScript learners |
+        27 Exercises
+      </p>
     </footer>
   </body>
 </html>
